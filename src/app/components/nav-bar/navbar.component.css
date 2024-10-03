@@ -1,0 +1,51 @@
+  .navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: rgb(236, 246, 253);
+  }
+
+  .navbar-brand{
+    font-size: 12px;
+    font-weight:500;
+    padding-right: 50px;
+  }
+  
+  .navbar-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 0.65rem;
+    padding: 0.20rem 0.60rem;
+    text-align: center;
+  }
+  
+  .navbar-nav .nav-link i {
+    font-size: 1rem;
+  }
+
+  .navbar-nav .nav-link div {
+    white-space: nowrap;
+  }
+ .search-input {
+    height: 40px; 
+    font-size: 0.85rem;
+  }
+  
+  .input-group-text {
+    background-color: white;
+    border-right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.15rem 0.55rem;
+  }
+  .input-group{
+    margin-left: 50px;
+    margin-top: 10px;
+  }
+  
+  

@@ -1,0 +1,32 @@
+.cost-page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .main-content {
+    display: flex;
+    flex: 1; /* Take remaining space */
+  }
+  
+  app-side-panel {
+    flex: 0 0 200px; 
+    background-color: #f0f0f0;
+    margin-top: 85px;
+
+  }
+  
+  app-item-list {
+    flex: 1; 
+    padding: 20px;
+    background-color: #ffffff;
+    overflow-y: auto; 
+    margin-top: 85px;
+    margin-left: 100px;
+    height: 600px;
+  }
+  app-cost-summary{
+    margin-top: 96px;
+    margin-right: 350px;
+    /* margin-right: 20px; */
+  }

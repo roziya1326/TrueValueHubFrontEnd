@@ -1,0 +1,7 @@
+<div class="confirm-popup" *ngIf="show">
+    <div class="confirm-popup-content">
+      <p>{{ message }}</p>
+      <button class="confirmbtn" (click)="onConfirm()">Confirm</button>
+      <button class="cancelbtn" (click)="onCancel()">Cancel</button>
+    </div>
+</div>

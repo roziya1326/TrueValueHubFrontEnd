@@ -1,0 +1,9 @@
+<div class="cost-page-container">
+    <app-navbar></app-navbar>
+    <div class="main-content">
+      <app-side-panel (partSelected)="onPartSelected($event)"></app-side-panel>
+      <app-item-list [selectedPart]="selectedPart"></app-item-list>
+      <app-cost-summary></app-cost-summary>
+    </div>
+  </div>
+  

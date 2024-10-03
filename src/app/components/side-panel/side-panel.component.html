@@ -1,0 +1,56 @@
+<div class="sidebar" style="position: fixed;" >
+    <div class="scrollable-section">
+        <div class="input-group mb-3">
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
+        <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            aria-label="Search"
+            (input)="onSearchChange($event)"
+            [(ngModel)]="searchTerm"
+        />
+        </div>
+
+        <div
+        *ngIf="filteredItems.length > 0 && searchTerm.length > 0"
+        class="dropdown"
+        >
+        <ul class="list-group dropdown-menu show">
+            <li
+            *ngFor="let item of filteredItems"
+            class="list-group-item"
+            (click)="selectPart(item)"
+            >
+            {{ item.internalPartNumber }}
+            </li>
+        </ul>
+        </div>
+        <div class="scenarios card">
+        <label>Scenarios :</label>
+        <div class="scenario-box">
+            <button class="btn scenario-btn">
+            <span class="scenario-text">Base Scenario</span>
+            </button>
+            <button class="btn edit-btn">&#9998;</button>
+            <button class="btn copy-btn">
+            <i class="fa fa-file-circle-plus"></i>
+            </button>
+        </div>
+        </div>
+
+        <div class="frame-item card">
+        <i class="fas fa-cube"></i>
+        <span>12 IN FRAME</span>
+        <i class="fa-regular fa-circle"></i>
+        </div>
+
+        <div class="add-remove-buttons">
+        <button class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+        <button class="btn btn-primary">
+            <i class="fas fa-minus"></i> Remove
+        </button>
+        </div>
+        <div class="animation card"></div>
+    </div>
+</div>

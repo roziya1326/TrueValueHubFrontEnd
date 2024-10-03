@@ -1,0 +1,107 @@
+/* Container for the right bar */
+.right-bar {
+    display: flex;  /* Flexbox for horizontal alignment */
+    flex-wrap: wrap;  /* Allow wrapping to next row if needed */
+    justify-content: center;  /* Center align horizontally */
+    margin: 0 auto;
+  }
+  /* Style for the card */
+  .card {
+    width: 360px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;  /* Add bottom margin for vertical spacing */
+    margin: -10px; /* Add margin around each card for spacing */
+  }
+  
+  /* Header styles */
+  .card-header {
+    background-color: #f8f9fa;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;  /* Center align the header text */
+  }
+  
+  /* Card body styles */
+  .card-body {
+    padding: 1rem;
+    font-size: 0.6rem;
+  }
+  
+  /* Input group text styles */
+  .input-group-text {
+    background-color: #e9ecef;
+    height: 25px;  /* Reduced height */
+    padding: 3px;  /* Adjusted padding for better size */
+    font-size: 12px;  /* Smaller font size */
+    width: 60px;  /* Reduce the width of the dollar sign span */
+  }
+  
+  /* Input styles */
+  input {
+    text-align: right;
+    height: 25px;  /* Reduced height */
+    padding: 3px;  /* Adjust padding for compact size */
+    font-size: 12px;  /* Smaller font size */
+    width: 100px;  /* Decrease input box width */
+    box-sizing: border-box;
+  }
+  
+  /* Label styles */
+  label {
+    font-weight: bold;
+    margin-bottom: 0px;  /* Remove bottom margin from label */
+  }
+  
+  /* Readonly input background color */
+  input[readonly] {
+    background-color: #f1f1f1;
+  }
+  
+  /* Margin bottom reduction */
+  .mb-2 {
+    margin-bottom: 0.6rem !important;  /* Reduced margin between rows */
+  }
+  
+  /* Row and column alignment */
+  .row .col-md-4 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .card {
+      width: 100%;  
+    }
+    .right-bar {
+      justify-content: flex-start;  
+    }
+  }
+  .form-row .form-group {
+    margin-right: 100px; 
+    gap: 100px;
+  }
+  .input-group span {
+    width: 20px; 
+  }
+  .scrollable-section {
+    max-height: 550px; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding-right: 5px; 
+}
+
+
+.scrollable-section::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scrollable-section::-webkit-scrollbar-thumb {
+    background-color: #888; 
+    border-radius: 10px;
+}
+
+.scrollable-section::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
