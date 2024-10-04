@@ -186,6 +186,11 @@ export class ItemListComponent implements OnInit {
             placeholder: 'Enter lifetime quantity remaining',
             infoMessage: 'Specify the remaining quantity.',
           },
+          { label: 'Part Complexity',
+            value: '', 
+            options: ['Low', 'Medium', 'High'],
+            infoMessage: 'This is the internal part number for identification.' 
+          }
         ],
       },
     },
@@ -430,6 +435,7 @@ export class ItemListComponent implements OnInit {
       productLifeRemaining: ['', [Validators.required, Validators.min(0)]],
       paymentTerms: ['', Validators.required],
       lifetimeQuantityRemaining: ['', [Validators.required, Validators.min(1)]],
+      partComplexity:['', [Validators.required, Validators.min(1)]]
     });
 
     this.partForm.valueChanges.subscribe(() => {
@@ -464,6 +470,7 @@ export class ItemListComponent implements OnInit {
       productLifeRemaining: part.productLifeRemaining,
       paymentTerms: part.paymentTerms,
       lifetimeQuantityRemaining: part.lifetimeQuantityRemaining,
+      partComplexity:part.partComplexity
     });
     this.isUpdateEnabled = false;
     this.buttonColor = 'blue';
@@ -527,6 +534,9 @@ export class ItemListComponent implements OnInit {
         paymentTerms: this.partForm.get('paymentTerms')?.value,
         lifetimeQuantityRemaining: this.partForm.get(
           'lifetimeQuantityRemaining'
+        )?.value,
+        partComplexity: this.partForm.get(
+          'partComplexity'
         )?.value,
       };
 
@@ -595,33 +605,23 @@ export class ItemListComponent implements OnInit {
     }
     if (this.selectedIndex !== null && this.selectedMaterial) {
       const updatedMaterial: any = {};
-      updatedMaterial.materialDescription =
-        this.materials[this.selectedIndex].materialDescription;
+      updatedMaterial.materialDescription = this.materials[this.selectedIndex].materialDescription;
       updatedMaterial.cost = this.materials[this.selectedIndex].cost;
-      updatedMaterial.processGroup =
-        this.materials[this.selectedIndex].processGroup;
-      updatedMaterial.subProcess =
-        this.materials[this.selectedIndex].subProcess;
-      updatedMaterial.materialCategory =
-        this.materials[this.selectedIndex].materialCategory;
+      updatedMaterial.processGroup = this.materials[this.selectedIndex].processGroup;
+      updatedMaterial.subProcess = this.materials[this.selectedIndex].subProcess;
+      updatedMaterial.materialCategory = this.materials[this.selectedIndex].materialCategory;
       updatedMaterial.family = this.materials[this.selectedIndex].family;
       updatedMaterial.grade = this.materials[this.selectedIndex].processGroup;
       updatedMaterial.volume = this.materials[this.selectedIndex].volume;
       updatedMaterial.price = this.materials[this.selectedIndex].price;
       updatedMaterial.density = this.materials[this.selectedIndex].density;
-      updatedMaterial.moldBoxLength =
-        this.materials[this.selectedIndex].moldBoxLength;
-      updatedMaterial.moldBoxWidth =
-        this.materials[this.selectedIndex].moldBoxWidth;
-      updatedMaterial.moldBoxHeight =
-        this.materials[this.selectedIndex].moldBoxHeight;
-      updatedMaterial.moldSandWeight =
-        this.materials[this.selectedIndex].moldSandWeight;
+      updatedMaterial.moldBoxLength = this.materials[this.selectedIndex].moldBoxLength;
+      updatedMaterial.moldBoxWidth = this.materials[this.selectedIndex].moldBoxWidth;
+      updatedMaterial.moldBoxHeight = this.materials[this.selectedIndex].moldBoxHeight;
+      updatedMaterial.moldSandWeight = this.materials[this.selectedIndex].moldSandWeight;
       updatedMaterial.mswr = this.materials[this.selectedIndex].mswr;
-      updatedMaterial.netMaterialCost =
-        this.materials[this.selectedIndex].netMaterialCost;
-      updatedMaterial.totalMaterialCost =
-        this.materials[this.selectedIndex].totalMaterialCost;
+      updatedMaterial.netMaterialCost = this.materials[this.selectedIndex].netMaterialCost;
+      updatedMaterial.totalMaterialCost = this.materials[this.selectedIndex].totalMaterialCost;
       updatedMaterial.partId = this.materials[this.selectedIndex].partId;
 
       updatedMaterial.materialId = materialIdToBeUpdated;
