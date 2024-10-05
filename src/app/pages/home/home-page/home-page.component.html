@@ -1,7 +1,41 @@
-<app-navbar></app-navbar>
-<ag-grid-angular
-  [gridOptions]="gridOptions"
-  style="width: 70%; height: 300px; margin-left: 420px;"
-  class="ag-theme-alpine"
->
-</ag-grid-angular>
+<app-navbar style="position: relative;"></app-navbar>
+<mat-tab-group style="position: absolute;" >
+  <mat-tab label="Create" >
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="projectName">Project Name/Number*</label>
+        <input id="projectName" formControlName="projectName" type="text" placeholder="Project Name/Number">
+      </div>
+
+      <div>
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" placeholder="Enter the project description" rows="4" style="width: 100%;"></textarea>
+      </div>
+
+      <div class="file-upload-container">
+        <label>Attach Files*</label>
+
+        <!-- File Drop Zone -->
+        <div class="file-drop-zone"
+             (drop)="onFileDropped($event)"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)">
+          Drag & drop your file or folder here
+          <a href="#" class="upload-link" (click)="fileInput.click(); $event.preventDefault();">Add File/Folder</a>
+        </div>
+
+        <!-- Add File Button -->
+        <!-- <button type="button" class="upload-btn" (click)="fileInput.click()">Add File / Folder</button> -->
+        <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="!createForm.valid">Save to Draft</button>
+    </form>
+  </mat-tab>
+
+  <mat-tab label="Draft">
+    <h3>Draft Section</h3>
+    <p>This is where your saved drafts will be displayed.</p>
+  </mat-tab>
+</mat-tab-group>
