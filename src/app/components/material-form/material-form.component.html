@@ -1,0 +1,191 @@
+<ng-container *ngIf="materialForm">
+    <form [formGroup]="materialForm">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="materialDescription">Material Description</label>
+            <input
+              type="text"
+              class="form-control"
+              id="materialDescription"
+              formControlName="materialDescription"
+            />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="cost">Cost</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cost"
+              formControlName="cost"
+            />
+          </div>
+        <div class="form-group col-md-4">
+          <label for="processGroup">Process Group:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="processGroup"
+            formControlName="processGroup"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="subProcess">Sub Process:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="subProcess"
+            formControlName="subProcess"
+          />
+        </div>
+      </div>
+  
+      <div class="card mb-3">
+        <div class="card-header">Material Selection</div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="materialCategory">Material Category:</label>
+              <select
+                class="form-control"
+                id="materialCategory"
+                formControlName="materialCategory"
+              >
+                <option value="Paint">Paint</option>
+                <option value="Powder">Powder</option>
+                <option value="Gas">Gas</option>
+                <option value="Sand">Sand</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="family">Family:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="family"
+                formControlName="family"
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label for="materialDescription">Description/Grade:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="materialDescription"
+                formControlName="grade"
+              />
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="volumePurchased">Volume Purchased (Ton/Contract):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="volumePurchased"
+                formControlName="volume"
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label for="greenSandPrice">Green Sand Price (S/Kg):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="Price"
+                formControlName="price"
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label for="density">Density (g/cc):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="density"
+                formControlName="density"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="card-header">Mold Details</div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="moldBoxLength">Mold Box Length (mm):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="moldBoxLength"
+                formControlName="moldBoxLength"
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label for="moldBoxWidth">Mold Box Width (mm):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="moldBoxWidth"
+                formControlName="moldBoxWidth"
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label for="moldBoxHeight">Mold Box Height (mm):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="moldBoxHeight"
+                formControlName="moldBoxHeight"
+              />
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="moldSandWeight">Mold Sand Weight (Kg):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="moldSandWeight"
+                formControlName="moldSandWeight"
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label for="moldSandWeightWithReplenishment"
+                >Mold Sand Weight (Kg) with 10% replenishment:</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="moldSandWeightWithReplenishment"
+                formControlName="mswr"
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label for="netMaterialCost">Net Material Cost (S):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="netMaterialCost"
+                formControlName="netMaterialCost"
+              />
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="totalMaterialCost">Total Material Cost (S):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="totalMaterialCost"
+                formControlName="totalMaterialCost"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  

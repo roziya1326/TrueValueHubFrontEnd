@@ -1,0 +1,38 @@
+    <div *ngFor="let item of items" class="accordion-item">
+        <div class="accordion-header" (click)="toggleItem(item)">
+            <div class="item-icon">
+                <i class="fa" [ngClass]="item.icon"></i>
+            </div>
+            <div class="item-info">
+                <span>{{ item.title }}</span>
+                <div class="item-progress">
+                    <div class="progress-bar">
+                        <div class="progress" [style.width]="item.progress + '%'"></div>
+                    </div>
+                    <span class="progress-text">{{ item.progress }}% Completed</span>
+                </div>
+            </div>
+            <div class="item-toggle">
+                <i [class]="item.isExpanded ? 'fa fa-minus' : 'fa fa-plus'"></i>
+            </div>
+        </div>
+
+        <div *ngIf="item.isExpanded" class="accordion-content">
+            <ng-container [ngSwitch]="item.content.type">
+                <ng-container *ngSwitchCase="'form'">
+                    <ng-container *ngIf="isIterable(item.content?.data)">
+                        <div class="form-row">
+                            <div
+                              *ngFor="let field of item.content?.data; let i = index"
+                              class="form-group"
+                            >
+                              <ng-container *ngIf="item.title === 'Material Information'">
+                                <app-material-table [materialList] = "materials"[selectedPart] = "selectedPart" (materialFormChanged)="onFormChanged($event)" ></app-material-table>
+                              </ng-container>                             
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
