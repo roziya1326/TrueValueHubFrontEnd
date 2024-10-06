@@ -5,6 +5,7 @@ import { MaterialService } from '../../Services/material.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
+import { Part } from '../../core/Interfaces/Part.interface';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component'
 })
 export class MaterialTableComponent {
   @Input() materialList :Material[] |null = null;
+  @Input() selectedPart :any |null = null;
   @Output() materialFormChanged = new EventEmitter<boolean>();
 
   selectedMaterial: Material | null = null;
@@ -53,7 +55,8 @@ export class MaterialTableComponent {
     this.showConfirmPopup = false;
     this.materialToDeleteId = null;
   }
-  addMaterial(partNo: number) {
+  addMaterial() {
+  if(this.selectedPart){ 
     const newMaterial: Material = {
       materialId: 0,
       materialDescription: 'string',
@@ -73,10 +76,9 @@ export class MaterialTableComponent {
       mswr: 0,
       netMaterialCost: 0,
       totalMaterialCost: 0,
-      partId: partNo,
-    };
-
-    this.materialService.addMaterial(partNo, newMaterial).subscribe(
+      partId: this.selectedPart.partId,
+    };    
+    this.materialService.addMaterial(newMaterial.partId, newMaterial).subscribe(
       (material) => {
         this.toastr.success('Material Added Successfully!', 'Success');
         if(this.materialList){
@@ -87,6 +89,7 @@ export class MaterialTableComponent {
         this.toastr.error('Failed to add Material. Please try again.', 'Error');
       }
     );
+  }
   }
   
   confirmDelete(): void {

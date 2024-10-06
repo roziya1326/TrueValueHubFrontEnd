@@ -13,7 +13,7 @@ export class PartService {
   constructor(private http: HttpClient) { }
   getPartById(partId: string): Observable<Part[]> {
     return this.http.get<{ $values: Part[] }>(`${this.apiUrl}/${partId}`).pipe(
-      map((response) => response.$values || []) // Safely extract $values array
+      map((response) => response.$values || []) 
     );
   }
   updatePart(internalPartNumber: string, part: Part): Observable<any> {

@@ -27,7 +27,7 @@
                               class="form-group"
                             >
                               <ng-container *ngIf="item.title === 'Material Information'">
-                                <app-material-table [materialList] = "materials" (materialFormChanged)="onFormChanged($event)" ></app-material-table>
+                                <app-material-table [materialList] = "materials"[selectedPart] = "selectedPart" (materialFormChanged)="onFormChanged($event)" ></app-material-table>
                               </ng-container>                             
                             </div>
                         </div>

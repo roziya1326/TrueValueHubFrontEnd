@@ -41,11 +41,7 @@ export class MaterialInformationComponent {
   @ViewChild(MaterialTableComponent) materialTableComponent!:MaterialTableComponent;
   isInitialized: any;
 
-  constructor(
-    private materialService: MaterialService,
-    private toastr: ToastrService,
-    private fb: FormBuilder
-  ) {}
+  constructor() {}
 
   onModelChange(index: number) {
     this.isChanged = true;

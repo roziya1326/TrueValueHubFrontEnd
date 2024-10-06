@@ -12,7 +12,6 @@ export class MaterialService {
   constructor(private http: HttpClient) { }
  
   updateMaterial(materialId: number, material: Material): Observable<any> {
-    console.log("sffs",materialId);
     return this.http.put(`${this.apiUrl}/${materialId}`, material,{
       responseType: 'text' as 'json'
     });
