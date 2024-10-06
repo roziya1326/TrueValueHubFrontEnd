@@ -4,13 +4,14 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
   import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 import { PartInformationComponent } from "../part-information/part-information.component";
+import { MaterialInformationComponent } from "../material-information/material-information.component";
 @Component({
   selector: 'app-item-list-new',
   standalone: true,
   imports: [CommonModule,
     FormsModule,
     ConfirmPopupComponent,
-    ReactiveFormsModule, PartInformationComponent],
+    ReactiveFormsModule, PartInformationComponent, MaterialInformationComponent],
   templateUrl: './item-list-new.component.html',
   styleUrl: './item-list-new.component.css'
 })

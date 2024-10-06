@@ -1,0 +1,367 @@
+    <div *ngFor="let item of items" class="accordion-item">
+        <div class="accordion-header" (click)="toggleItem(item)">
+            <div class="item-icon">
+                <i class="fa" [ngClass]="item.icon"></i>
+            </div>
+            <div class="item-info">
+                <span>{{ item.title }}</span>
+                <div class="item-progress">
+                    <div class="progress-bar">
+                        <div class="progress" [style.width]="item.progress + '%'"></div>
+                    </div>
+                    <span class="progress-text">{{ item.progress }}% Completed</span>
+                </div>
+            </div>
+            <div class="item-toggle">
+                <i [class]="item.isExpanded ? 'fa fa-minus' : 'fa fa-plus'"></i>
+            </div>
+        </div>
+
+        <div *ngIf="item.isExpanded" class="accordion-content">
+            <ng-container [ngSwitch]="item.content.type">
+                <ng-container *ngSwitchCase="'form'">
+                    <ng-container *ngIf="isIterable(item.content?.data)">
+                        <div class="form-row">
+                            <div
+                              *ngFor="let field of item.content?.data; let i = index"
+                              class="form-group"
+                            >
+                              <ng-container *ngIf="item.title === 'Material Information'">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th>Material #</th>
+                                      <th>Material Description</th>
+                                      <th>Cost($)</th>
+                                      <th>Action</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let material of materials; let i = index">
+                                      <td>{{ i + 1 }}</td>
+                                      <td>{{ material.materialDescription }}</td>
+                                      <td>{{ material.cost | number : "1.3-3" }}</td>
+                                      <td class="action-icons">
+                                        <i
+                                          class="bi bi-pencil-square edit-icon"
+                                          (click)="toggleEditForm(i, material.materialId)"
+                                        ></i>
+                                        <i
+                                          class="bi bi-trash delete-icon"
+                                          (click)="
+                                            showDeleteConfirmation(material.materialId)
+                                          "
+                                        ></i>
+                                      </td>
+                                    </tr>
+            
+                                    <tr>
+                                      <td colspan="4">
+                                        <a
+                                          href="javascript:void(0)"
+                                          (click)="addMaterial(materials[0].partId)"
+                                          >Add Material</a
+                                        >
+                                      </td>
+                                    </tr>
+                                    <!-- Toggle Edit Form -->
+                                    <tr *ngIf="selectedMaterial">
+                                      <td colspan="4">
+                                        <ng-container *ngIf="selectedMaterial">
+                                          <form>
+                                            <div class="form-row">
+                                              <div class="form-group col-md-4">
+                                                <label for="processGroup"
+                                                  >Process Group:</label
+                                                >
+                                                <input
+                                                  type="text"
+                                                  class="form-control"
+                                                  id="processGroup"
+                                                  [(ngModel)]="
+                                                    selectedMaterial.processGroup
+                                                  "
+                                                  name="processGroup"
+                                                  (ngModelChange)="onModelChange(i)"
+                                                />
+                                              </div>
+                                              <div class="form-group col-md-4">
+                                                <label for="subProcess">Sub Process:</label>
+                                                <input
+                                                  type="text"
+                                                  class="form-control"
+                                                  id="subProcess"
+                                                  [(ngModel)]="selectedMaterial.subProcess"
+                                                  name="subProcess"
+                                                  (ngModelChange)="onModelChange(i)"
+                                                />
+                                              </div>
+                                            </div>
+                                          </form>
+            
+                                          <div class="card mb-3">
+                                            <div class="card-header">
+                                              Material Selection
+                                            </div>
+                                            <div class="card-body">
+                                              <form>
+                                                <div class="form-row">
+                                                  <div class="form-group col-md-4">
+                                                    <label for="materialCategory"
+                                                      >Material Category:</label
+                                                    >
+                                                    <select
+                                                      class="form-control"
+                                                      id="materialCategory"
+                                                      placeholder="Paint/Powder/Gas/Sand"
+                                                    >
+                                                      <option value="Paint">Paint</option>
+                                                      <option value="Powder">Powder</option>
+                                                      <option value="Paint">Gas</option>
+                                                      <option value="Paint">Sand</option>
+                                                    </select>
+                                                  </div>
+                                                  <div class="form-group col-md-4">
+                                                    <label for="materialFamily"
+                                                      >Family:</label
+                                                    >
+                                                    <input
+                                                      type="text"
+                                                      class="form-control"
+                                                      id="family"
+                                                      [(ngModel)]="selectedMaterial.family"
+                                                      name="family"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                  <div class="form-group col-md-4">
+                                                    <label for="materialDescription"
+                                                      >Description/Grade:</label
+                                                    >
+                                                    <input
+                                                      type="text"
+                                                      class="form-control"
+                                                      id="materialDescription"
+                                                      [(ngModel)]="selectedMaterial.grade"
+                                                      name="materialDescription"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                </div>
+            
+                                                <div class="form-row">
+                                                  <div class="form-group col-md-4">
+                                                    <label for="volumePurchased"
+                                                      >Volume Purchased
+                                                      (Ton/Contract):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="volumePurchased"
+                                                      [(ngModel)]="selectedMaterial.volume"
+                                                      name="materialDescription"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                  <div class="form-group col-md-4">
+                                                    <label for="greenSandPrice"
+                                                      >Green Sand Price (S/Kg):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="Price"
+                                                      [(ngModel)]="selectedMaterial.price"
+                                                      name="price"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                  <div class="form-group col-md-4">
+                                                    <label for="density"
+                                                      >Density (g/cc):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="density"
+                                                      [(ngModel)]="selectedMaterial.density"
+                                                      name="density"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+            
+                                          <div class="card">
+                                            <div class="card-header">Mold Details</div>
+                                            <div class="card-body">
+                                              <form>
+                                                <div class="form-row">
+                                                  <div class="form-group col-md-4">
+                                                    <label for="moldBoxLength"
+                                                      >Mold Box Length (mm):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="moldBoxLength"
+                                                      [(ngModel)]="
+                                                        selectedMaterial.moldBoxLength
+                                                      "
+                                                      name="moldBoxLength"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                  <div class="form-group col-md-4">
+                                                    <label for="moldBoxWidth"
+                                                      >Mold Box Width (mm):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="moldBoxWidth"
+                                                      [(ngModel)]="
+                                                        selectedMaterial.moldBoxWidth
+                                                      "
+                                                      name="moldBoxWidth"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                  <div class="form-group col-md-4">
+                                                    <label for="moldBoxHeight"
+                                                      >Mold Box Height (mm):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="moldBoxHeight"
+                                                      [(ngModel)]="
+                                                        selectedMaterial.moldBoxHeight
+                                                      "
+                                                      name="moldBoxHeight"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                </div>
+            
+                                                <div class="form-row">
+                                                  <div class="form-group col-md-4">
+                                                    <label for="moldSandWeight"
+                                                      >Mold Sand Weight (Kg):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="moldSandWeight"
+                                                      [(ngModel)]="
+                                                        selectedMaterial.moldSandWeight
+                                                      "
+                                                      name="moldSandWeight"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                  <div class="form-group col-md-4">
+                                                    <label
+                                                      for="moldSandWeightWithReplenishment"
+                                                      >Mold Sand Weight (Kg) with 10%
+                                                      replenishment:</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="moldSandWeightWithReplenishment"
+                                                      [(ngModel)]="selectedMaterial.mswr"
+                                                      name="moldSandWeightWithReplenishment"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                  <div class="form-group col-md-4">
+                                                    <label for="netMaterialCost"
+                                                      >Net Material Cost (S):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="netMaterialCost"
+                                                      [(ngModel)]="
+                                                        selectedMaterial.netMaterialCost
+                                                      "
+                                                      name="netMaterialCost"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                </div>
+            
+                                                <div class="form-row">
+                                                  <div class="form-group col-md-12">
+                                                    <label for="totalMaterialCost"
+                                                      >Total Material Cost (S):</label
+                                                    >
+                                                    <input
+                                                      type="number"
+                                                      class="form-control"
+                                                      id="totalMaterialCost"
+                                                      [(ngModel)]="
+                                                        selectedMaterial.totalMaterialCost
+                                                      "
+                                                      name="totalMaterialCost"
+                                                      (ngModelChange)="onModelChange(i)"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </ng-container>
+            
+                              <!-- Part Complexity Field Template -->
+                              <ng-template #partComplexityField>
+                                <label style="margin-bottom: 8px">{{ field.label }}</label>
+                                <span
+                                  class="info-icon"
+                                  (click)="showInfo(field.infoMessage)"
+                                  style="margin-left: 5px"
+                                >
+                                  <i class="bi bi-info-circle"></i>
+                                </span>
+                                <span style="margin-left: 4px">:</span>
+                                <div class="radio-group">
+                                  <div
+                                    *ngFor="let option of field.options"
+                                    class="radio-option"
+                                  >
+                                    <input
+                                      type="radio"
+                                      [name]="'partComplexity' + item.title"
+                                      [value]="option"
+                                      [checked]="option === field.value"
+                                      [(ngModel)]="field.value"
+                                      (change)="field.value = option"
+                                      [placeholder]="field.placeholder"
+                                    />
+                                    {{ option }}
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <app-confirm-popup
+    [message]="'Are you sure you want to proceed?'"
+    [show]="showConfirmPopup"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  >
+  </app-confirm-popup>
