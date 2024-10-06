@@ -256,12 +256,6 @@ export class PartInformationComponent implements OnInit {
   }
   updateAndSave() {
     this.isLoading = true;
-    if (this.isChanged) {
-      console.log('Form has changed. Save the data.');
-      this.isChanged = false; 
-      this.buttonColor = 'blue'; 
-    }
-    console.log(this.partForm.value);
     if (this.isPartFormChanged && this.partForm.valid) {
       const updatedPart: any = {
         internalPartNumber: this.partForm.get('internalPartNumber')?.value,
@@ -286,7 +280,6 @@ export class PartInformationComponent implements OnInit {
         )?.value,
       };
 
-      console.log('Updated Part:', updatedPart);
       this.partService
         .updatePart(updatedPart.internalPartNumber, updatedPart)
         .subscribe(
@@ -296,7 +289,8 @@ export class PartInformationComponent implements OnInit {
             }, 1000);
             this.toastr.success('Part Updated Successfully!', 'Success');
             this.isPartFormChanged = false;
-            this.buttonColor = 'blue';
+            this.formChanged.emit(false); 
+
           },
           (error) => {
             this.isLoading = false;

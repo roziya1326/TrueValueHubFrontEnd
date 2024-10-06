@@ -1,0 +1,51 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th>Material #</th>
+        <th>Material Description</th>
+        <th>Cost($)</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="materialList">
+      <tr *ngFor="let material of materialList; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ material.materialDescription }}</td>
+        <td>{{ material.cost | number : "1.3-3" }}</td>
+        <td class="action-icons">
+          <i
+            class="bi bi-pencil-square edit-icon"
+            (click)="toggleEditForm(i)"
+          ></i>
+          <i
+            class="bi bi-trash delete-icon"
+            (click)="
+              showDeleteConfirmation(material.materialId)
+            "
+          ></i>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <a
+            href="javascript:void(0)"
+            (click)="addMaterial(materialList[0].partId)"
+            >Add Material</a>
+        </td>
+      </tr>
+      <!-- Toggle Edit Form -->
+      <tr *ngIf="selectedMaterial">
+        <td colspan="4"> 
+              <app-material-form [selectedMaterial] = "selectedMaterial" (materialFormChanged)="onFormChanged($event)" ></app-material-form>                                   
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-confirm-popup
+  [message]="'Are you sure you want to proceed?'"
+  [show]="showConfirmPopup"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()"
+>
+</app-confirm-popup>

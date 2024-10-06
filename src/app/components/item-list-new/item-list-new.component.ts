@@ -5,6 +5,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
   import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 import { PartInformationComponent } from "../part-information/part-information.component";
 import { MaterialInformationComponent } from "../material-information/material-information.component";
+import { MaterialFormComponent } from '../material-form/material-form.component';
 @Component({
   selector: 'app-item-list-new',
   standalone: true,
@@ -22,22 +23,28 @@ export class ItemListNewComponent implements OnInit{
   buttonColor: string = 'blue';
   isInitialized: number = 0; // Flag to track initialization
   @ViewChild('partInfoComponent') partInfoComponent!: PartInformationComponent;
+  @ViewChild(MaterialInformationComponent) materialInformationComponent!:MaterialInformationComponent;
   ngOnInit() {
-    // Set button color back to blue on initialization
     this.buttonColor = 'blue';
     this.isInitialized++; // Mark as initialized
   }
-  savePart() {
+  save() {
     if (this.partInfoComponent) {
       this.partInfoComponent.updateAndSave(); 
+    }
+    if(this.materialInformationComponent){      
+      this.materialInformationComponent.updateAndSave();
     }
   }
 
   onFormChanged(isChanged: boolean) {
     this.isInitialized++; 
-    if (isChanged && this.isInitialized >2) {
-      this.buttonColor = 'red'; 
+    if (this.isInitialized >2) {
+      isChanged? this.buttonColor = 'red':this.buttonColor = 'blue';
     }
+  }
+  onMaterialFormChanged(isMaterialChanged: boolean) {
+    isMaterialChanged? this.buttonColor = 'red':this.buttonColor = 'blue';
   }
   expandAll() {
   }
@@ -45,7 +52,5 @@ export class ItemListNewComponent implements OnInit{
   collapseAll() {
   }
   recalculateCost(){
-
   }
-  updateAndSave(){}
 }

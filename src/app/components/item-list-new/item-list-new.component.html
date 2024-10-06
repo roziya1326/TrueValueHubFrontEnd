@@ -15,7 +15,7 @@
     (formChanged)="onFormChanged($event)" 
     #partInfoComponent>
     </app-part-information>
-    <app-material-information [selectedPart]="selectedPart" style="margin-top: 200px;"></app-material-information>
+    <app-material-information [selectedPart]="selectedPart" style="margin-top: 200px;" (materialFormChanged)="onMaterialFormChanged($event)"></app-material-information>
   <div class="action-buttons fixed">
     <i class="bi bi-arrow-left-circle"></i>
     <i class="bi bi-arrow-right-circle"></i>
@@ -23,7 +23,7 @@
       [style.backgroundColor]="buttonColor"
       class="btn btn-primary"
       type="button"
-      (click)="savePart()"
+      (click)="save()"
     >
       Update & Save
     </button>
