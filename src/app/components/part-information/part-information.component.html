@@ -1,0 +1,281 @@
+<div class="central-part-container"
+  [ngClass]="{ blur: isLoading }"
+  style="position: absolute; width: 100%">
+
+    <div *ngFor="let item of items" class="accordion-item">
+        <div class="accordion-header" (click)="toggleItem(item)">
+            <div class="item-icon">
+                <i class="fa" [ngClass]="item.icon"></i>
+            </div>
+            <div class="item-info">
+                <span>{{ item.title }}</span>
+                <div class="item-progress">
+                    <div class="progress-bar">
+                        <div class="progress" [style.width]="item.progress + '%'"></div>
+                    </div>
+                    <span class="progress-text">{{ item.progress }}% Completed</span>
+                </div>
+            </div>
+            <div class="item-toggle">
+                <i [class]="item.isExpanded ? 'fa fa-minus' : 'fa fa-plus'"></i>
+            </div>
+        </div>
+
+        <div *ngIf="item.isExpanded" class="accordion-content">
+            <ng-container [ngSwitch]="item.content.type">
+                <ng-container *ngSwitchCase="'form'">
+                    <ng-container *ngIf="isIterable(item.content?.data)">
+                        <form>
+                                <div class="form-group " >
+                                    <!-- General Field Template (For all other fields) -->
+                                    <form
+                                    [formGroup]="partForm"
+                                    *ngIf="item.title === 'Part Information'"
+                                    >
+                                    <!-- Row 1 -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        <label for="internalPartNumber"
+                                            >Internal Part Number</label
+                                        >
+                                        <input
+                                            id="internalPartNumber"
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="internalPartNumber"
+                                            [disabled]="isUpdateEnabled"
+                                        />
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="supplierName">Supplier Name</label>
+                                        <select
+                                            id="supplierName"
+                                            class="form-control"
+                                            formControlName="supplierName"
+                                        >
+                                            <option [value]="selectedPart?.supplierName" selected>
+                                            {{ selectedPart?.supplierName }}
+                                            </option>
+                                            <option
+                                            *ngFor="let supplier of suppliers"
+                                            [value]="supplier.name"
+                                            >
+                                            {{ supplier.name }}
+                                            </option>
+                                        </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="deliverySiteName">Delivery Site Name</label>
+                                        <select
+                                            id="deliverySiteName"
+                                            class="form-control"
+                                            formControlName="deliverySiteName"
+                                        >
+                                            <option
+                                            [value]="selectedPart?.deliverySiteName"
+                                            selected
+                                            >
+                                            {{ selectedPart?.deliverySiteName }}
+                                            </option>
+                                            <option
+                                            *ngFor="let site of deliverySites"
+                                            [value]="site.name"
+                                            >
+                                            {{ site.name }}
+                                            </option>
+                                        </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 2 -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        <label for="drawingNumber">Drawing Number</label>
+                                        <input
+                                            id="drawingNumber"
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="drawingNumber"
+                                        />
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="incoTerms">Incoterms</label>
+                                        <input
+                                            id="incoTerms"
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="incoTerms"
+                                        />
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="annualVolume">Annual Volume</label>
+                                        <input
+                                            id="annualVolume"
+                                            type="number"
+                                            class="form-control"
+                                            formControlName="annualVolume"
+                                        />
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 3 -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        <label for="bomQty">BOM Quantity</label>
+                                        <input
+                                            id="bomQty"
+                                            type="number"
+                                            class="form-control"
+                                            formControlName="bomQty"
+                                        />
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="deliveryFrequency">Delivery Frequency</label>
+                                        <input
+                                            id="deliveryFrequency"
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="deliveryFrequency"
+                                        />
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="lotSize">Lot Size</label>
+                                        <input
+                                            id="lotSize"
+                                            type="number"
+                                            class="form-control"
+                                            formControlName="lotSize"
+                                        />
+                                        </div>
+                                    </div>
+                                    <!-- Row 4 -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        <label for="manufacturingCategory"
+                                            >Manufacturing Category</label
+                                        >
+                                        <select
+                                            id="manufacturingCategory"
+                                            class="form-control"
+                                            formControlName="manufacturingCategory"
+                                        >
+                                            <option
+                                            [value]="selectedPart?.manufacturingCategory"
+                                            selected
+                                            >
+                                            {{ selectedPart?.manufacturingCategory }}
+                                            </option>
+                                            <option
+                                            *ngFor="let category of manufacturingCategories"
+                                            [value]="category.name"
+                                            >
+                                            {{ category.name }}
+                                            </option>
+                                        </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="packagingType">Packaging Type</label>
+                                        <select
+                                            id="packagingType"
+                                            class="form-control"
+                                            formControlName="packagingType"
+                                        >
+                                            <option [value]="selectedPart?.packagingType" selected>
+                                            {{ selectedPart?.packagingType }}
+                                            </option>
+                                            <option
+                                            *ngFor="let type of packingTypes"
+                                            [value]="type.name"
+                                            >
+                                            {{ type.name }}
+                                            </option>
+                                        </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="productLifeRemaining"
+                                            >Product Life Remaining</label
+                                        >
+                                        <input
+                                            id="productLifeRemaining"
+                                            type="number"
+                                            class="form-control"
+                                            formControlName="productLifeRemaining"
+                                        />
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 5 -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        <label for="partComplexity">Part Complexity</label>
+                                        <div>
+                                            <div class="d-flex justify-content-between">
+                                            <div class="form-check me-3">
+                                                <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                id="low"
+                                                value="Low"
+                                                formControlName="partComplexity"
+                                                />
+                                                <label class="form-check-label" for="low"
+                                                >Low</label
+                                                >
+                                            </div>
+                                            <div class="form-check me-3">
+                                                <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                id="medium"
+                                                value="Medium"
+                                                formControlName="partComplexity"
+                                                />
+                                                <label class="form-check-label" for="medium"
+                                                >Medium</label
+                                                >
+                                            </div>
+                                            <div class="form-check">
+                                                <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                id="high"
+                                                value="High"
+                                                formControlName="partComplexity"
+                                                />
+                                                <label class="form-check-label" for="high"
+                                                >High</label
+                                                >
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                        <label for="paymentTerms">Payment Terms</label>
+                                        <input
+                                            id="paymentTerms"
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="paymentTerms"
+                                        />
+                                        </div>
+                                        <div class="col-md-4">
+                                        <label for="lifetimeQuantityRemaining"
+                                            >Lifetime Quantity Remaining</label
+                                        >
+                                        <input
+                                            id="lifetimeQuantityRemaining"
+                                            type="number"
+                                            class="form-control"
+                                            formControlName="lifetimeQuantityRemaining"
+                                        />
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>              
+                        </form>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+    </div>
+</div>

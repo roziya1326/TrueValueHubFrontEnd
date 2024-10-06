@@ -603,6 +603,7 @@ export class ItemListComponent implements OnInit {
       console.error('Material ID is null. Cannot update material.');
       return;
     }
+    console.log(this.selectedIndex,'',this.selectedMaterial)
     if (this.selectedIndex !== null && this.selectedMaterial) {
       const updatedMaterial: any = {};
       updatedMaterial.materialDescription = this.materials[this.selectedIndex].materialDescription;

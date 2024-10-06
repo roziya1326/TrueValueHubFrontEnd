@@ -1,0 +1,36 @@
+<div
+  class="central-part-container"
+  [ngClass]="{ blur: isLoading }"
+  style="position: absolute; width: 50%"
+>
+  <div class="header">
+    <h3 class="items">Items</h3>
+    <div class="expand-collapse-buttons">
+      <button (click)="expandAll()">Expand All</button>
+      <button (click)="collapseAll()">Collapse All</button>
+    </div>
+  </div>
+  <app-part-information
+  [selectedPart]="selectedPart"
+  (formChanged)="onFormChanged($event)" 
+  #partInfoComponent>
+    </app-part-information>
+  <div class="action-buttons fixed">
+    <i class="bi bi-arrow-left-circle"></i>
+    <i class="bi bi-arrow-right-circle"></i>
+    <button
+      [style.backgroundColor]="buttonColor"
+      class="btn btn-primary"
+      type="button"
+      (click)="savePart()"
+    >
+      Update & Save
+    </button>
+    <button class="btn btn-secondary" type="button" (click)="recalculateCost()">
+      Recalculate Cost
+    </button>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-spinner">
+  <div class="spinner"></div>
+</div>
