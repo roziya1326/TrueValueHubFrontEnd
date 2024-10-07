@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { AccordionContent } from '../../core/Interfaces/AccordionContent.interface';
 import { AccordionItem } from '../../core/Interfaces/AccordionItem.interface';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-part-information',
   standalone: true,
@@ -62,110 +63,9 @@ export class PartInformationComponent implements OnInit {
     private partService: PartService,
     private toastr: ToastrService,
     private fb: FormBuilder,
+    private http:HttpClient
   ) {}
   items: AccordionItem[] = [
-    {
-      title: 'Part Information',
-      icon: 'fa fa-file',
-      progress: 100,
-      isExpanded: false,
-      content: {
-        type: 'form',
-        data: [
-          {
-            label: 'Internal Part Number',
-            value: '',
-            placeholder: 'Enter internal part number',
-            infoMessage: 'This is the internal part number for identification.',
-          },
-          {
-            label: 'Supplier Name',
-            value: '',
-            placeholder: 'Enter supplier name',
-            infoMessage: 'Enter the name of the supplier.',
-          },
-          {
-            label: 'Delivery Site Name',
-            value: '',
-            placeholder: 'Enter delivery site name',
-            infoMessage: 'Select the delivery site.',
-          },
-          {
-            label: 'Drawing Number',
-            value: '',
-            placeholder: 'Enter drawing number',
-            infoMessage: 'Enter the drawing number.',
-          },
-          {
-            label: 'Inco Terms',
-            value: '',
-            placeholder: 'Enter inco terms',
-            infoMessage: 'Specify the incoterms.',
-          },
-          {
-            label: 'Annual Volume',
-            value: '',
-            placeholder: 'Enter annual volume',
-            infoMessage: 'Specify the annual volume.',
-          },
-          {
-            label: 'BOM Quantity',
-            value: '',
-            placeholder: 'Enter BOM quantity',
-            infoMessage: 'Enter the quantity for BOM.',
-          },
-          {
-            label: 'Delivery Frequency',
-            value: '',
-            placeholder: 'Enter delivery frequency',
-            infoMessage: 'Specify the delivery frequency.',
-          },
-          {
-            label: 'Lot Size',
-            value: '',
-            placeholder: 'Enter lot size',
-            infoMessage: 'Specify the lot size.',
-          },
-          {
-            label: 'Manufacturing Category',
-            value: '',
-            placeholder: 'Select manufacturing category',
-            options: ['Category A', 'Category B', 'Category C'],
-            infoMessage: 'Select the manufacturing category.',
-          },
-          {
-            label: 'Packaging Type',
-            value: '',
-            placeholder: 'Select packaging type',
-            options: ['Type A', 'Type B', 'Type C'],
-            infoMessage: 'Select the packaging type.',
-          },
-          {
-            label: 'Product Life Remaining',
-            value: '',
-            placeholder: 'Enter product life remaining',
-            infoMessage: 'Specify the remaining product life.',
-          },
-          {
-            label: 'Payment Terms',
-            value: '',
-            placeholder: 'Enter payment terms',
-            infoMessage: 'Specify the payment terms.',
-          },
-          {
-            label: 'Lifetime Quantity Remaining',
-            value: '',
-            placeholder: 'Enter lifetime quantity remaining',
-            infoMessage: 'Specify the remaining quantity.',
-          },
-          { label: 'Part Complexity',
-            value: '', 
-            options: ['Low', 'Medium', 'High'],
-            infoMessage: 'This is the internal part number for identification.' 
-          }
-        ],
-      },
-    },
   ];
   dropdownVisible: { [key: string]: boolean } = {};
 
@@ -175,14 +75,16 @@ export class PartInformationComponent implements OnInit {
 
   selectOption(field: any, option: string) {
     // Update the selected value to reflect the dropdown selection
-    field.selecteValue = option; // Store the selected value
+    field.selecteValue = option; 
     field.value = option;
     this.isChanged = true;
     this.buttonColor = 'red';
     this.dropdownVisible[field.label] = false; // Hide the dropdown after selection
   }
   ngOnInit() {
-    // Initialize FilteredItems with all items
+    this.http.get<AccordionItem[]>('/assets/accordion-data.json').subscribe(data => {
+      this.items = data;      
+    });
     this.partForm = this.fb.group({
       internalPartNumber: [{ value: '', disabled: true }, Validators.required],
       supplierName: ['', [Validators.required, Validators.minLength(3)]],
@@ -215,7 +117,6 @@ export class PartInformationComponent implements OnInit {
       this.updatePartInformation(this.selectedPart);
     }
   }
-
   updatePartInformation(part: Part) {
     this.partForm.patchValue({
       internalPartNumber: part.internalPartNumber,
