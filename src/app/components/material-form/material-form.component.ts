@@ -17,9 +17,7 @@ export class MaterialFormComponent {
   @Input() selectedMaterial :Material | null = null;
   @Output() materialFormChanged = new EventEmitter<boolean>();
   materialForm!: FormGroup;
-  buttonColor: string = 'blue';
   isMaterialFormChanged: boolean = false;
-  isInitialized: any;
 
   constructor(private fb: FormBuilder,private materialService :MaterialService, private toastr :ToastrService) {}
 
@@ -44,7 +42,7 @@ export class MaterialFormComponent {
       totalMaterialCost: [this.selectedMaterial?.totalMaterialCost, Validators.required],
     });
     this.materialForm.valueChanges.subscribe(() => { 
-      this.isMaterialFormChanged = true;     
+      this.isMaterialFormChanged = true;
       this.materialFormChanged.emit(true); 
     });
   }
@@ -76,6 +74,7 @@ export class MaterialFormComponent {
         (response) => {
           setTimeout(() => {}, 2000);
           this.toastr.success('Material Updated Successfully!', 'Success');
+          this.isMaterialFormChanged = false;
           this.materialFormChanged.emit(false);
         },
         (error) => {

@@ -8,7 +8,7 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PartService {
-  private apiUrl = 'https://localhost:7283/api/Part';
+  private apiUrl = environment.apiUrl+'/Part';
 
   constructor(private http: HttpClient) { }
   getPartById(partId: string): Observable<Part[]> {

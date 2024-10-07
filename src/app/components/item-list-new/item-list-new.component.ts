@@ -48,7 +48,6 @@ export class ItemListNewComponent implements OnInit{
   }
   expandAll() {
   }
-
   collapseAll() {
   }
   recalculateCost(){
