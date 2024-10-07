@@ -70,10 +70,8 @@ export class MaterialFormComponent {
       updatedMaterial.totalMaterialCost = this.materialForm.get('totalMaterialCost')?.value;
       updatedMaterial.partId = this.selectedMaterial.partId;
   
-      // Use materialId for the update
       updatedMaterial.materialId = this.selectedMaterial.materialId;
   
-      // Call the materialService to update the material
       this.materialService.updateMaterial(updatedMaterial.materialId, updatedMaterial).subscribe(
         (response) => {
           setTimeout(() => {}, 2000);
