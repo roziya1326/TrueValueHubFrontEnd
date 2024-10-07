@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Material } from '../core/Interfaces/Material.interface';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MaterialService {
-  private apiUrl = 'https://localhost:7283/api/Material';
+  private apiUrl = environment.apiUrl+'/Material';
 
   constructor(private http: HttpClient) { }
  

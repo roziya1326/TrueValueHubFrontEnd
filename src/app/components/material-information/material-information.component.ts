@@ -1,18 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Part } from '../../core/Interfaces/Part.interface';
-import { PartService } from '../../Services/part.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Material } from '../../core/Interfaces/Material.interface';
-import { MaterialService } from '../../Services/material.service';
 import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
-import { ToastrService } from 'ngx-toastr';
-import {
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  Validators,
-} from '@angular/forms';
 import { AccordionItem } from '../../core/Interfaces/AccordionItem.interface';
 import { MaterialFormComponent } from "../material-form/material-form.component";
 import { MaterialTableComponent } from "../material-table/material-table.component";

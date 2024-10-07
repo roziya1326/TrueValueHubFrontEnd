@@ -11,7 +11,6 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { AccordionContent } from '../../core/Interfaces/AccordionContent.interface';
 import { AccordionItem } from '../../core/Interfaces/AccordionItem.interface';
 import { HttpClient } from '@angular/common/http';
 @Component({
