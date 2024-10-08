@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { Material } from '../../core/Interfaces/Material.interface';
 import { MaterialFormComponent } from '../material-form/material-form.component';
 import { MaterialService } from '../../Services/material.service';
@@ -15,7 +15,7 @@ import { Part } from '../../core/Interfaces/Part.interface';
   templateUrl: './material-table.component.html',
   styleUrl: './material-table.component.css'
 })
-export class MaterialTableComponent {
+export class MaterialTableComponent implements OnInit {
   @Input() materialList :Material[] |null = null;
   @Input() selectedPart :any |null = null;
   @Output() materialFormChanged = new EventEmitter<boolean>();
@@ -28,20 +28,30 @@ export class MaterialTableComponent {
   @ViewChild(MaterialFormComponent) materialFormComponent!:MaterialFormComponent;
   buttonColor: string = 'blue';
   isInitialized: number = 0;
+  selectedRowIndex: number | null = 0;
 
+  ngOnInit(){
+    this.toggleEditForm(0);
+  }
   constructor(
     private materialService: MaterialService,
     private toastr: ToastrService,
+    private renderer: Renderer2
   ) {}
   toggleEditForm(index: number) {
     this.editIndex = index;
+    this.selectedRowIndex = index;
+    console.log(this.selectedRowIndex);
+    
     if (this.editingIndex === index) {
       // Close the edit form
       this.editingIndex = null;
       this.selectedMaterial = null;
+      this.selectedRowIndex = null;
     } else {
       // Open the edit form and set the selected material
       this.editingIndex = index;
+      this.selectedRowIndex = index;
       if(this.materialList){
         this.selectedMaterial = { ...this.materialList[index] };
       }

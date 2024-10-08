@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output,AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output,AfterViewInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Part } from '../../core/Interfaces/Part.interface';
 import { PartService } from '../../Services/part.service';
@@ -59,6 +59,7 @@ export class PartInformationComponent implements OnInit,AfterViewInit {
     { id: 'site2', name: 'Site 2' },
     { id: 'site3', name: 'Site 3' },
   ];
+  @Input() isExpanded: boolean = false;
 
   constructor(
     private partService: PartService,
@@ -114,9 +115,13 @@ export class PartInformationComponent implements OnInit,AfterViewInit {
       this.formChanged.emit(true); 
     });
   }
-  ngOnChanges() {
+  ngOnChanges(changes:SimpleChanges) {
     if (this.selectedPart) {
       this.updatePartInformation(this.selectedPart);
+    }
+    
+    if (changes['isExpanded']) {
+      this.items.forEach(item => item.isExpanded = this.isExpanded);
     }
   }
   updatePartInformation(part: Part) {
