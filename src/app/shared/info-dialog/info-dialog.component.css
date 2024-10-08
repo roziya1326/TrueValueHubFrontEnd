@@ -1,0 +1,10 @@
+.tooltip-content {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width :300px;
+    height: 65px;
+  }

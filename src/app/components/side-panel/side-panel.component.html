@@ -11,7 +11,6 @@
             [(ngModel)]="searchTerm"
         />
         </div>
-
         <div
         *ngIf="filteredItems.length > 0 && searchTerm.length > 0"
         class="dropdown"
@@ -32,8 +31,8 @@
             <button class="btn scenario-btn">
             <span class="scenario-text">Base Scenario</span>
             </button>
-            <button class="btn edit-btn">&#9998;</button>
-            <button class="btn copy-btn">
+            <button class="btn edit-btn" data-bs-toggle="tooltip" data-placement="left"title="Edit the scenario">&#9998;</button>
+            <button class="btn copy-btn" data-bs-toggle="tooltip" title="Copy the scenario">
             <i class="fa fa-file-circle-plus"></i>
             </button>
         </div>

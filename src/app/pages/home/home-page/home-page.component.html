@@ -15,7 +15,6 @@
       <div class="file-upload-container">
         <label>Attach Files*</label>
 
-        <!-- File Drop Zone -->
         <div class="file-drop-zone"
              (drop)="onFileDropped($event)"
              (dragover)="onDragOver($event)"
@@ -24,12 +23,9 @@
           <a href="#" class="upload-link" (click)="fileInput.click(); $event.preventDefault();">Add File/Folder</a>
         </div>
 
-        <!-- Add File Button -->
-        <!-- <button type="button" class="upload-btn" (click)="fileInput.click()">Add File / Folder</button> -->
         <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
       </div>
 
-      <!-- Submit Button -->
       <button type="submit" [disabled]="!createForm.valid">Save to Draft</button>
     </form>
   </mat-tab>

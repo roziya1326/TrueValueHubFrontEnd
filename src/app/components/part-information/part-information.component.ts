@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output,AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Part } from '../../core/Interfaces/Part.interface';
 import { PartService } from '../../Services/part.service';
@@ -13,17 +13,18 @@ import {
 } from '@angular/forms';
 import { AccordionItem } from '../../core/Interfaces/AccordionItem.interface';
 import { HttpClient } from '@angular/common/http';
+import { InfoIconComponent } from "../../shared/info-icon/info-icon.component";
 @Component({
   selector: 'app-part-information',
   standalone: true,
-  imports: [ CommonModule,
+  imports: [CommonModule,
     FormsModule,
     ConfirmPopupComponent,
-    ReactiveFormsModule],
+    ReactiveFormsModule, InfoIconComponent],
   templateUrl: './part-information.component.html',
   styleUrl: './part-information.component.css'
 })
-export class PartInformationComponent implements OnInit {
+export class PartInformationComponent implements OnInit,AfterViewInit {
   @Input() selectedPart: Part | null = null;
   @Output() formChanged = new EventEmitter<boolean>();
   isUpdateEnabled: boolean = false;
@@ -33,6 +34,7 @@ export class PartInformationComponent implements OnInit {
   isChanged = false;
   editIndex: number | null = null;
   partForm!: FormGroup;
+  infoMessage: string = '';
   suppliers = [
     { id: 'Supplier1', name: 'Supplier 1' },
     { id: 'Supplier2', name: 'Supplier 2' },
@@ -73,16 +75,17 @@ export class PartInformationComponent implements OnInit {
   }
 
   selectOption(field: any, option: string) {
-    // Update the selected value to reflect the dropdown selection
     field.selecteValue = option; 
     field.value = option;
     this.isChanged = true;
     this.buttonColor = 'red';
-    this.dropdownVisible[field.label] = false; // Hide the dropdown after selection
+    this.dropdownVisible[field.label] = false;
   }
   ngOnInit() {
     this.http.get<AccordionItem[]>('/assets/accordion-data.json').subscribe(data => {
-      this.items = data;      
+      this.items = data;  
+      console.log(this.items);
+          
     });
     this.partForm = this.fb.group({
       internalPartNumber: [{ value: '', disabled: true }, Validators.required],
@@ -151,8 +154,15 @@ export class PartInformationComponent implements OnInit {
     );
   }
 
-  showInfo(message: string) {
-    alert(message);
+  showInfo(message: string): void {
+    console.log(message);
+
+  if(message){
+    console.log(message);
+    
+    this.infoMessage = message;
+    alert(this.infoMessage); 
+  }
   }
   updateAndSave() {
     this.isLoading = true;
@@ -208,5 +218,10 @@ export class PartInformationComponent implements OnInit {
     }
   }
   recalculateCost() {}
-  
+  ngAfterViewInit(): void {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new (window as any).bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }
 }
