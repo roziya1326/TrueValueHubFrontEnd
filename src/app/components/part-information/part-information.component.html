@@ -24,7 +24,6 @@
                     <ng-container *ngIf="isIterable(item.content?.data)">
                         <form>
                                 <div class="form-group " >
-                                    <!-- General Field Template (For all other fields) -->
                                     <form
                                     [formGroup]="partForm"
                                     *ngIf="item.title === 'Part Information'"
@@ -32,24 +31,27 @@
                                     <!-- Row 1 -->
                                     <div class="row">
                                         <div class="col-md-4">
-                                        <label for="internalPartNumber"
-                                            >Internal Part Number</label
-                                        >
+                                        <label for="internalPartNumber"  data-bs-toggle="tooltip" title="Enter the unique part number assigned internally">Internal Part Number</label>
+                                        <app-info-icon [infoMessage]="item.content.data[0].infoMessage"></app-info-icon>
                                         <input
                                             id="internalPartNumber"
                                             type="text"
                                             class="form-control"
                                             formControlName="internalPartNumber"
                                             [disabled]="isUpdateEnabled"
+                                            placeholder="Enter Internal Part Number"
                                         />
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="supplierName">Supplier Name</label>
+                                        <label for="supplierName" data-bs-toggle="tooltip" title="Select the supplier providing the part">Supplier Name</label>
+                                        <app-info-icon [infoMessage]="item.content.data[1].infoMessage"></app-info-icon>
+
                                         <select
                                             id="supplierName"
                                             class="form-control"
                                             formControlName="supplierName"
                                         >
+                                        <option value="" disabled selected>Choose Supplier Name</option>
                                             <option [value]="selectedPart?.supplierName" selected>
                                             {{ selectedPart?.supplierName }}
                                             </option>
@@ -62,12 +64,14 @@
                                         </select>
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="deliverySiteName">Delivery Site Name</label>
+                                        <label for="deliverySiteName" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Delivery Site Name</label>
+                                        <app-info-icon [infoMessage]="item.content.data[2].infoMessage"></app-info-icon>
+
                                         <select
                                             id="deliverySiteName"
                                             class="form-control"
-                                            formControlName="deliverySiteName"
-                                        >
+                                            formControlName="deliverySiteName">
+                                            <option value="" disabled selected>Choose Delivery Site Name</option>
                                             <option
                                             [value]="selectedPart?.deliverySiteName"
                                             selected
@@ -87,30 +91,37 @@
                                     <!-- Row 2 -->
                                     <div class="row">
                                         <div class="col-md-4">
-                                        <label for="drawingNumber">Drawing Number</label>
+                                        <label for="drawingNumber" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Drawing Number</label>
+                                        <app-info-icon [infoMessage]="item.content.data[3].infoMessage"></app-info-icon>
+
                                         <input
                                             id="drawingNumber"
                                             type="text"
                                             class="form-control"
                                             formControlName="drawingNumber"
+                                            placeholder="Enter Drawing Number"
                                         />
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="incoTerms">Incoterms</label>
+                                        <label for="incoTerms" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Incoterms</label>
                                         <input
                                             id="incoTerms"
                                             type="text"
                                             class="form-control"
                                             formControlName="incoTerms"
+                                            placeholder="Enter Inco terms"
                                         />
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="annualVolume">Annual Volume</label>
+                                        <label for="annualVolume" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Annual Volume</label>
+                                        <app-info-icon [infoMessage]="item.content.data[4].infoMessage"></app-info-icon>
+
                                         <input
                                             id="annualVolume"
                                             type="number"
                                             class="form-control"
                                             formControlName="annualVolume"
+                                            placeholder="Enter Annual Volume"
                                         />
                                         </div>
                                     </div>
@@ -118,44 +129,54 @@
                                     <!-- Row 3 -->
                                     <div class="row">
                                         <div class="col-md-4">
-                                        <label for="bomQty">BOM Quantity</label>
+                                        <label for="bomQty" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">BOM Quantity</label>
+                                        <app-info-icon [infoMessage]="item.content.data[5].infoMessage"></app-info-icon>
+
                                         <input
                                             id="bomQty"
                                             type="number"
                                             class="form-control"
                                             formControlName="bomQty"
+                                            placeholder="Enter the BOM Quantity"
                                         />
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="deliveryFrequency">Delivery Frequency</label>
+                                        <label for="deliveryFrequency" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Delivery Frequency</label>
+                                        <app-info-icon [infoMessage]="item.content.data[6].infoMessage"></app-info-icon>
+
                                         <input
                                             id="deliveryFrequency"
                                             type="text"
                                             class="form-control"
                                             formControlName="deliveryFrequency"
+                                            placeholder="Enter the Delivery Frequency"
                                         />
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="lotSize">Lot Size</label>
+                                        <label for="lotSize" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Lot Size</label>
+                                        <app-info-icon [infoMessage]="item.content.data[7].infoMessage"></app-info-icon>
+
                                         <input
                                             id="lotSize"
                                             type="number"
                                             class="form-control"
                                             formControlName="lotSize"
+                                            placeholder="Enter the Lotsize"
                                         />
                                         </div>
                                     </div>
                                     <!-- Row 4 -->
                                     <div class="row">
                                         <div class="col-md-4">
-                                        <label for="manufacturingCategory"
-                                            >Manufacturing Category</label
+                                        <label for="manufacturingCategory" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Manufacturing Category</label
                                         >
+                                        <app-info-icon [infoMessage]="item.content.data[8].infoMessage"></app-info-icon>
+
                                         <select
                                             id="manufacturingCategory"
                                             class="form-control"
-                                            formControlName="manufacturingCategory"
-                                        >
+                                            formControlName="manufacturingCategory">
+                                            <option value="" disabled selected>Choose manufacturingCategory</option>
                                             <option
                                             [value]="selectedPart?.manufacturingCategory"
                                             selected
@@ -171,12 +192,15 @@
                                         </select>
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="packagingType">Packaging Type</label>
+                                        <label for="packagingType" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Packaging Type</label>
+                                        <app-info-icon [infoMessage]="item.content.data[9].infoMessage"></app-info-icon>
+
                                         <select
                                             id="packagingType"
                                             class="form-control"
-                                            formControlName="packagingType"
-                                        >
+                                            formControlName="packagingType">
+                                            <option value="" disabled selected>Choose PackagingType</option>
+
                                             <option [value]="selectedPart?.packagingType" selected>
                                             {{ selectedPart?.packagingType }}
                                             </option>
@@ -189,14 +213,16 @@
                                         </select>
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="productLifeRemaining"
-                                            >Product Life Remaining</label
+                                        <label for="productLifeRemaining" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Product Life Remaining</label
                                         >
+                                        <app-info-icon [infoMessage]="item.content.data[10].infoMessage"></app-info-icon>
+
                                         <input
                                             id="productLifeRemaining"
                                             type="number"
                                             class="form-control"
                                             formControlName="productLifeRemaining"
+                                            placeholder="Enter productLifeRemaining"
                                         />
                                         </div>
                                     </div>
@@ -204,7 +230,9 @@
                                     <!-- Row 5 -->
                                     <div class="row">
                                         <div class="col-md-4">
-                                        <label for="partComplexity">Part Complexity</label>
+                                        <label for="partComplexity" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Part Complexity</label>
+                                        <app-info-icon [infoMessage]="item.content.data[11].infoMessage"></app-info-icon>
+
                                         <div>
                                             <div class="d-flex justify-content-between">
                                             <div class="form-check me-3">
@@ -248,23 +276,28 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                        <label for="paymentTerms">Payment Terms</label>
+                                        <label for="paymentTerms" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Payment Terms</label>
+                                        <app-info-icon [infoMessage]="item.content.data[12].infoMessage"></app-info-icon>
+
                                         <input
                                             id="paymentTerms"
                                             type="text"
                                             class="form-control"
                                             formControlName="paymentTerms"
+                                            placeholder="Enter paymentTerms"
                                         />
                                         </div>
                                         <div class="col-md-4">
-                                        <label for="lifetimeQuantityRemaining"
-                                            >Lifetime Quantity Remaining</label
+                                        <label for="lifetimeQuantityRemaining" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Lifetime Quantity Remaining</label
                                         >
+                                        <app-info-icon [infoMessage]="item.content.data[13].infoMessage"></app-info-icon>
+
                                         <input
                                             id="lifetimeQuantityRemaining"
                                             type="number"
                                             class="form-control"
                                             formControlName="lifetimeQuantityRemaining"
+                                            placeholder="Enter the lifetimeQuantityRemaining"
                                         />
                                         </div>
                                     </div>

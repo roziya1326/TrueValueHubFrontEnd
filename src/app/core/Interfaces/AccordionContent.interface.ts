@@ -1,6 +1,6 @@
 export interface AccordionContent {
     type: 'form' | 'text' | 'html';
-    data: any;
+    data?: any;
     datas?: {
         label: string;
         value: string;
