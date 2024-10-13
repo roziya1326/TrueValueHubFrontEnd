@@ -116,7 +116,7 @@ export class PartInformationComponent implements OnInit,AfterViewInit {
     });
   }
   ngOnChanges(changes:SimpleChanges) {
-    if (this.selectedPart) {
+    if (this.selectedPart&& changes['selectedPart']) {
       this.updatePartInformation(this.selectedPart);
     }
     

@@ -4,6 +4,8 @@ import { PartService } from '../../Services/part.service'
 import { ItemListComponent } from '../item-list/item-list.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import $ from 'jquery';
+
 @Component({
   selector: 'app-side-panel',
   standalone: true,
@@ -53,5 +55,45 @@ export class SidePanelComponent implements AfterViewInit{
     tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new (window as any).bootstrap.Tooltip(tooltipTriggerEl);
     });
+    // this.initializeJsTree();
   }
+  
+
+  // initializeJsTree() {
+  //   // Initialize jsTree with checkbox plugin
+  //   $('#tree-container').jstree({
+  //     'core': {
+  //       'data': [
+  //         {
+  //           'text': 'Item 1',
+  //           'children': [
+  //             { 'text': 'Sub Item 1-1', 'id': 'item1-1' },
+  //             { 'text': 'Sub Item 1-2', 'id': 'item1-2' }
+  //           ]
+  //         },
+  //         { 'text': 'Item 2', 'id': 'item2' }
+  //       ]
+  //     },
+  //     'checkbox': {
+  //       'keep_selected_style': false,
+  //       'three_state': false // Disables cascading selection (parents/children)
+  //     },
+  //     'plugins': ['checkbox']
+  //   });
+
+  //   // Allow only one checkbox to be selected at a time
+  //   $('#tree-container').on('changed.jstree', (e: any, data: any) => {
+  //     if (data.action === 'select_node') {
+  //       const selectedNodes = $('#tree-container').jstree('get_selected', true);
+  //       // Uncheck all nodes except the currently selected one
+  //       selectedNodes.forEach((node: any) => {
+  //         if (node.id !== data.node.id) {
+  //           $('#tree-container').jstree('deselect_node', node.id);
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
+
+  
 }

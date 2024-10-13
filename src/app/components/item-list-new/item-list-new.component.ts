@@ -27,7 +27,7 @@ export class ItemListNewComponent implements OnInit{
   @ViewChild(MaterialInformationComponent) materialInformationComponent!:MaterialInformationComponent;
   ngOnInit() {
     this.buttonColor = 'blue';
-    this.isInitialized++; // Mark as initialized
+    this.isInitialized++; 
   }
   save() {
     if (this.partInfoComponent) {
@@ -53,6 +53,7 @@ export class ItemListNewComponent implements OnInit{
   isExpanded = false;
 
   expandAll() {
+    this.buttonColor = "blue";
     this.isExpanded = true;
   }
 

@@ -1,37 +1,46 @@
-<app-navbar style="position: relative;"></app-navbar>
-<mat-tab-group style="position: absolute;" >
-  <mat-tab label="Create" >
-    <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="projectName">Project Name/Number*</label>
-        <input id="projectName" formControlName="projectName" type="text" placeholder="Project Name/Number">
+<app-navbar style="position: absolute;"></app-navbar>
+
+<div class="custom-tab" style="position: absolute; top: 100px; left: 100px;gap:20px">
+  <button class="tablinks" [ngClass]="{ 'active': selectedTab === 'create' }" (click)="selectTab('create')">Create</button>
+  <button class="tablinks" [ngClass]="{ 'active': selectedTab === 'draft' }" (click)="selectTab('draft')">Draft</button>
+</div>
+
+<div class="tabcontent" *ngIf="selectedTab === 'create'" style="width: 20%;margin-top: -25px;">
+  <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="projectName">Project Name/Number*</label>
+      <input id="projectName" formControlName="projectName" type="text" placeholder="Enter Project Name/Number" style="width: 100%;">
+    </div>
+
+    <div>
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" placeholder="Enter the project description" rows="4" style="width: 100%;"></textarea>
+    </div>
+
+    <div>
+      <label>Attach Files*</label>
+      <div class="file-drop-zone"
+           (drop)="onFileDropped($event)"
+           (dragover)="onDragOver($event)"
+           (dragleave)="onDragLeave($event)">
+        Drag & drop your file or folder here
+        <a href="#" class="upload-link" (click)="fileInput.click(); $event.preventDefault();">Add File/Folder</a>
       </div>
 
-      <div>
-        <label for="description">Description</label>
-        <textarea id="description" formControlName="description" placeholder="Enter the project description" rows="4" style="width: 100%;"></textarea>
+      <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
+      <div *ngIf="selectedFileName" class="file-selected">
+        File Selected: {{ selectedFileName }}
       </div>
+    </div>
 
-      <div class="file-upload-container">
-        <label>Attach Files*</label>
+    <button type="submit" [disabled]="!createForm.valid" style="color: black;">Save to Draft</button>
+  </form>
+</div>
 
-        <div class="file-drop-zone"
-             (drop)="onFileDropped($event)"
-             (dragover)="onDragOver($event)"
-             (dragleave)="onDragLeave($event)">
-          Drag & drop your file or folder here
-          <a href="#" class="upload-link" (click)="fileInput.click(); $event.preventDefault();">Add File/Folder</a>
-        </div>
+<div class="tabcontent" *ngIf="selectedTab === 'draft'" style="width: 73%;">
+  <app-draft></app-draft>
+</div>
 
-        <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
-      </div>
-
-      <button type="submit" [disabled]="!createForm.valid">Save to Draft</button>
-    </form>
-  </mat-tab>
-
-  <mat-tab label="Draft">
-    <h3>Draft Section</h3>
-    <p>This is where your saved drafts will be displayed.</p>
-  </mat-tab>
-</mat-tab-group>
+<div *ngIf="isLoading" class="loading-spinner">
+  <div class="spinner"></div>
+</div>

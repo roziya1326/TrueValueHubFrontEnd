@@ -55,7 +55,7 @@ export class MaterialInformationComponent {
   ngOnInit() {
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (this.selectedPart) {
+    if (this.selectedPart && changes['selectedPart'] ) {
       this.updateMaterialInformation(this.selectedPart);
     }
     

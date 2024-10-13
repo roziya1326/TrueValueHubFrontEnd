@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable , throwError} from 'rxjs';
+import { catchError } from 'rxjs';
 import { Material } from '../core/Interfaces/Material.interface';
 import { environment } from '../environments/environment';
 
@@ -15,11 +16,19 @@ export class MaterialService {
   updateMaterial(materialId: number, material: Material): Observable<any> {
     return this.http.put(`${this.apiUrl}/${materialId}`, material,{
       responseType: 'text' as 'json'
-    });
+    }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        const errorMessage = error.error instanceof ErrorEvent
+          ? `Client-side error: ${error.error.message}`
+          : `Server-side error: ${error.status} - ${error.message}`;
+        return throwError(() => new Error('Something went wrong. Please try again later.'));
+      })
+    );
   }
   addMaterial(partId: number, material: Material): Observable<Material> {
     const url = `${this.apiUrl}/${partId}`;
     return this.http.post<Material>(url, material);
+    
   }
   deleteMaterial(materialId: number): Observable<any> {
     const url = `${this.apiUrl}/${materialId}`; 

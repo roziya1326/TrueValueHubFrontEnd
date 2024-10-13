@@ -8,14 +8,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { ProjectService } from '../../../Services/project.service';
 import { Project } from '../../../core/Interfaces/Project.interface';
 import { PartDto } from '../../../core/Interfaces/PartDto.interface';
-import { CostPageComponent } from '../../Costing/cost-page/cost-page.component';
 import { ToastrService } from 'ngx-toastr';
-
+import { DraftComponent } from '../../../components/draft/draft.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [NavbarComponent,ReactiveFormsModule,MatButtonModule,MatInputModule,MatTabsModule ],
+  imports: [NavbarComponent,ReactiveFormsModule,MatButtonModule,MatInputModule,MatTabsModule, DraftComponent,CommonModule ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
@@ -24,18 +24,21 @@ export class HomePageComponent {
   createForm: FormGroup;
   draggedOver: boolean = false;
   selectedFile: File | null = null;
+  isLoading = false; 
+  selectedTabIndex: number = 0;
+  selectedFileName: string | null = null; 
+  selectedTab: string = 'create';
 
   constructor(private fb: FormBuilder, private projectService: ProjectService ,private toastr: ToastrService,
   ) {
     this.createForm = this.fb.group({
-      projectId: [0],
-      projectName: [''],
-      description:[''],
-      parts: this.fb.array([]) // Initialize an empty FormArray for parts
+      projectId: [0,Validators.required],
+      projectName: ['',Validators.required],
+      description:['',Validators.required],
+      parts: this.fb.array([],Validators.required) 
     });
   }
 
-  // When files are dropped in the drop zone
   onFileDropped(event: DragEvent) {
     event.preventDefault();
     this.draggedOver = false;
@@ -45,7 +48,6 @@ export class HomePageComponent {
     }
   }
 
-  // When a file is selected using the input button
   onFileSelected(event: any) {
     const files = event.target.files;
     if (files) {
@@ -53,36 +55,39 @@ export class HomePageComponent {
     }
   }
 
-  // Handling files from both drop and input selection
+  selectTab(tab: string) {
+    this.selectedTab = tab;
+  }
+
   handleFiles(files: FileList) {
-    const file = files[0]; // Assuming only one file is being uploaded
+    const file = files[0]; 
     if (file) {
       this.selectedFile = file;
+      this.selectedFileName = file.name; 
       this.readFileContent(file);
     }
   }
 
-  // Read file content
   readFileContent(file: File) {
     const reader = new FileReader();
     reader.onload = (event) => {
       const content = event.target?.result as string;
       this.parseJsonContent(content);
     };
-    reader.readAsText(file); // Read the file as text
+    reader.readAsText(file); 
   }
 
-  // Parse JSON content from the file
   parseJsonContent(content: string) {
     try {
-      const jsonData: Project = JSON.parse(content); // Specify type here      
+      const jsonData: Project = JSON.parse(content);     
+      if (!this.validateJsonData(jsonData)) {
+        return; 
+      }  
   
-      // Clear any existing parts in the FormArray
       const partsArray = this.createForm.get('parts') as FormArray;
       partsArray.clear();
   
-      // Populate parts array
-      jsonData.parts.forEach((part: PartDto) => { // Specify type here
+      jsonData.parts.forEach((part: PartDto) => { 
         partsArray.push(this.createPartFormGroup(part));
       });
   
@@ -92,7 +97,6 @@ export class HomePageComponent {
     }
   }
 
-  // Create a FormGroup for a part
   createPartFormGroup(part: any): FormGroup {
     return this.fb.group({
       internalPartNumber: [part.internalPartNumber],
@@ -115,7 +119,6 @@ export class HomePageComponent {
     });
   }
 
-  // Create a FormGroup for a child part
   createChildPartFormGroup(childPart: any): FormGroup {
     return this.fb.group({
       internalPartNumber: [childPart.internalPartNumber],
@@ -136,30 +139,128 @@ export class HomePageComponent {
       parentId: [childPart.parentId],
     });
   }
+  ngOnInit() {
+    document.addEventListener('drop', this.onFileDropped.bind(this));
+    document.addEventListener('dragover', this.onDragOver.bind(this));
+    document.addEventListener('dragleave', this.onDragLeave.bind(this));
+  }
 
-  // Prevent default drag behavior to allow drop
+  ngOnDestroy() {
+    document.removeEventListener('drop', this.onFileDropped.bind(this));
+    document.removeEventListener('dragover', this.onDragOver.bind(this));
+    document.removeEventListener('dragleave', this.onDragLeave.bind(this));
+  }
   onDragOver(event: DragEvent) {
     event.preventDefault();
     this.draggedOver = true;
   }
 
-  // Reset visual indicator when dragging leaves the drop zone
   onDragLeave(event: DragEvent) {
     event.preventDefault();
     this.draggedOver = false;
   }
 
-  // Handle form submission
   onSubmit() {
     if (this.createForm.valid) {
-      console.log(this.createForm.value);
-      
-      // Send formData via HTTP request to the backend
+    this.isLoading = true;      
       this.projectService.createProject(this.createForm.value).subscribe(response => {
+        setTimeout(() => {
+          this.isLoading = false;  
+          this.selectedTab = 'draft';
+        }, 1000);
         this.toastr.success('Project Added Successfully!', 'Success');
         console.log('Upload successful', response);
       });
     }
+  }
+  validateJsonData(jsonData: any): boolean {
+    if (!jsonData.parts || !Array.isArray(jsonData.parts)) {
+      this.toastr.error('Invalid data: "parts" must be an array.', 'Validation Error');      
+      return false;
+    }
+  
+    for (const part of jsonData.parts) {
+      if (!this.validatePart(part)) {
+        return false; 
+
+      }
+    }
+  
+    return true; 
+  }
+  
+  validatePart(part: any): boolean {
+    const requiredFields = [
+      'internalPartNumber',
+      'supplierName',
+      'deliverySiteName',
+      'drawingNumber',
+      'incoTerms',
+      'annualVolume',
+      'bomQty',
+      'deliveryFrequency',
+      'lotSize',
+      'manufacturingCategory',
+      'packagingType',
+      'productLifeRemaining',
+      'paymentTerms',
+      'lifetimeQuantityRemaining',
+      'projectId',
+      'parentId',
+      'childParts'
+    ];
+  
+    for (const field of requiredFields) {
+      if (!(field in part)) {
+        this.toastr.error(`Invalid data: "${field}" is missing in a part.`, 'Validation Error');
+        return false;
+      }
+    }
+  
+    if (!Array.isArray(part.childParts)) {
+      this.toastr.error('Invalid data: "childParts" must be an array.', 'Validation Error');
+      console.log("errorr");
+
+      return false;
+    }
+  
+    for (const childPart of part.childParts) {
+      if (!this.validateChildPart(childPart)) {
+        return false; 
+      }
+    }
+  
+    return true; 
+  }
+  
+  validateChildPart(childPart: any): boolean {
+    const requiredFields = [
+      'internalPartNumber',
+      'supplierName',
+      'deliverySiteName',
+      'drawingNumber',
+      'incoTerms',
+      'annualVolume',
+      'bomQty',
+      'deliveryFrequency',
+      'lotSize',
+      'manufacturingCategory',
+      'packagingType',
+      'productLifeRemaining',
+      'paymentTerms',
+      'lifetimeQuantityRemaining',
+      'projectId',
+      'parentId'
+    ];
+  
+    for (const field of requiredFields) {
+      if (!(field in childPart)) {
+        this.toastr.error(`Invalid data: "${field}" is missing in a child part.`, 'Validation Error');
+        return false;
+      }
+    }
+  
+    return true; 
   }
   
 }
