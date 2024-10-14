@@ -29,6 +29,8 @@ export class SidePanelComponent implements OnChanges{
 
   constructor(private partService: PartService) {}
   ngOnChanges(): void {
+    console.log(this.selectedProject);
+    
     if(this.selectedProject){
       this.searchTerm = this.selectedProject?.projectName;
     }
