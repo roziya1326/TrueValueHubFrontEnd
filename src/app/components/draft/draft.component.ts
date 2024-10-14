@@ -78,7 +78,6 @@ export class DraftComponent {
 
   isRowMaster(dataItem: any) {
     console.log('Checking row master for:', dataItem);
-  
     return dataItem && dataItem.parts && dataItem.parts.length > 0;
   }
 

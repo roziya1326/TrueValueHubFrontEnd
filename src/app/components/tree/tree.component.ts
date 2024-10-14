@@ -23,33 +23,35 @@ interface TreeNode {
   styleUrl: './tree.component.css'
 })
 export class TreeComponent {
-  @Input() selectedPart: Part | null = null;
-  @Output() partChecked = new EventEmitter<Part>();
-  @ViewChild('treeContainer', { static: true }) treeContainer!: ElementRef;
-  @Input() selectedProject: Project | null = null;
+  @Input() selectedPart: any | null = null;
+@Output() partChecked = new EventEmitter<Part>();
+@ViewChild('treeContainer', { static: true }) treeContainer!: ElementRef;
+@Input() selectedProject: Project | null = null;
 
+treeData: TreeNode[] = [];
+selectedNode: TreeNode | null = null;
 
-  treeData: TreeNode[] = [];
-
-  selectedNode: TreeNode | null = null;
-
-  ngOnChanges() {
-    if (this.selectedPart) {
-      console.log(this.selectedPart);
-      
-      this.treeData = this.convertPartToTreeNode(this.selectedPart);
-      this.initializeJsTree();
-    }
+ngOnChanges() {
+  // Load the tree data from the selected project
+  if (this.selectedProject) {
+    this.treeData = this.convertProjectToTreeNode(this.selectedProject);
+    this.initializeJsTree();
   }
+}
 
-  convertPartToTreeNode(part: any): TreeNode[] {
-    const childrenNodes = Array.isArray(part.childParts?.$values)
-    ? part.childParts.$values.map((child: any) => this.convertPartToTreeNode(child)) 
+convertProjectToTreeNode(project: any): TreeNode[] {
+  const parts = project.parts || []; // Assume project has a parts property
+  return parts.$values.map((part: any) => this.convertPartToTreeNode(part)).flat();
+}
+
+convertPartToTreeNode(part: any): TreeNode[] {
+  const childrenNodes = Array.isArray(part.childParts?.$values)
+    ? part.childParts.$values.map((child: any) => this.convertPartToTreeNode(child))
     : [];
-    console.log(part);
-    const materialsData = Array.isArray(part.materials?.$values)
+  
+  const materialsData = Array.isArray(part.materials?.$values)
     ? part.materials.$values
-    : Array.isArray(part.materials) 
+    : Array.isArray(part.materials)
       ? part.materials
       : []; 
 
@@ -66,43 +68,49 @@ export class TreeComponent {
     children: childrenNodes.flat(),
     data: extendedPartData 
   }];
-  }
-  
-  onSelect(node: TreeNode) {
-    if (this.selectedNode === node) {
-      this.selectedNode = null; 
-    } else {
-      this.selectedNode = node;
-      
-      if (node.partData) {
-        this.partChecked.emit(node.partData);
-      }
+}
+
+onSelect(node: TreeNode) {
+  if (this.selectedNode === node) {
+    this.selectedNode = null; 
+  } else {
+    this.selectedNode = node;
+    
+    if (node.partData) {
+      this.selectedPart = node.partData; // Update selectedPart
+      this.partChecked.emit(this.selectedPart);
     }
   }
-  ngAfterViewInit() {
-    this.initializeJsTree();
-  }
+}
 
-  initializeJsTree() {
-    $(this.treeContainer.nativeElement).jstree("destroy").empty();
+ngAfterViewInit() {
+  this.initializeJsTree();
+}
 
-    $(this.treeContainer.nativeElement).jstree({
-      'core': {
-        'data': this.treeData
-      },
-      'plugins': ['checkbox'],
-      'checkbox': {
-        'keep_selected_style': false
-      }
-    });
+initializeJsTree() {
+  $(this.treeContainer.nativeElement).jstree("destroy").empty();
 
-    $(this.treeContainer.nativeElement).on('select_node.jstree', (e, data) => {
-      const selectedNode = data.node;
-      console.log(selectedNode,"yeee");
-      
-      if (selectedNode.data) {
-        this.partChecked.emit(selectedNode.data);
-      }
-    });
-  }
+  $(this.treeContainer.nativeElement).jstree({
+    'core': {
+      'data': this.treeData
+    },
+    'plugins': ['checkbox', 'state'], 
+    'checkbox': {
+      'keep_selected_style': false
+    }
+  }).on('ready.jstree', () => {
+    $(this.treeContainer.nativeElement).jstree('open_all');
+  });
+
+  $(this.treeContainer.nativeElement).on('select_node.jstree', (e, data) => {
+    const selectedNode = data.node;
+    console.log(selectedNode, "yeee");
+    
+    if (selectedNode.data) {
+      this.selectedPart = selectedNode.data; 
+      this.partChecked.emit(this.selectedPart);
+    }
+  });
+}
+
 }
