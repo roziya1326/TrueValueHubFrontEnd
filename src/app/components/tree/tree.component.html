@@ -1,0 +1,23 @@
+<ul>
+    <li *ngFor="let node of treeData">
+      <div>
+        <input type="checkbox"
+               [checked]="selectedNode === node"
+               (change)="onSelect(node)">
+        {{ node.name }}
+      </div>
+      <ng-container *ngIf="node.children">
+        <ul>
+          <li *ngFor="let child of node.children">
+            <div>
+              <input type="checkbox"
+                     [checked]="selectedNode === child"
+                     (change)="onSelect(child)">
+              {{ child.name }}
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+    </li>
+  </ul>
+  

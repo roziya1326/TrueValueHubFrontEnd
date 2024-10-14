@@ -19,12 +19,14 @@ export class ProjectService {
   getDraftProjects():Observable<any>{
     return this.http.get<any>(this.getUrl);
   }
-  private projectData: any = null;
+  getProjectById(projectId: number): Observable<any>{
+    return this.http.get<any>(`${this.getUrl}/${projectId}`)
+  }
 
+  private projectData: any = null;
   setProjectData(project: any) {
     this.projectData = project;
   }
-
   getProjectData() {
     return this.projectData;
   }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { Part } from '../../core/Interfaces/Part.interface';
   import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,9 +16,11 @@ import { MaterialFormComponent } from '../material-form/material-form.component'
   templateUrl: './item-list-new.component.html',
   styleUrl: './item-list-new.component.css'
 })
-export class ItemListNewComponent implements OnInit{
+export class ItemListNewComponent implements OnInit, OnChanges{
  
   @Input() selectedPart: Part | null = null;
+  @Input() partChanged: number = 0;
+
   isLoading = false;
   buttonColor: string = 'blue';
   isInitialized: number = 0; 
@@ -28,6 +30,11 @@ export class ItemListNewComponent implements OnInit{
   ngOnInit() {
     this.buttonColor = 'blue';
     this.isInitialized++; 
+  }
+  ngOnChanges(){
+    this.isInitialized -= this.partChanged;
+    this.isMaterialInitialized -= this.partChanged;
+    
   }
   save() {
     if (this.partInfoComponent) {

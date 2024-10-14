@@ -53,8 +53,11 @@ export class MaterialInformationComponent {
     }
   ];
   ngOnInit() {
+    console.log(this.selectedPart);  
   }
   ngOnChanges(changes: SimpleChanges) {
+    console.log(this.selectedPart);  
+
     if (this.selectedPart && changes['selectedPart'] ) {
       this.updateMaterialInformation(this.selectedPart);
     }

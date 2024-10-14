@@ -1,37 +1,49 @@
-import { AfterViewInit, Component, EventEmitter, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Part } from '../../core/Interfaces/Part.interface'
 import { PartService } from '../../Services/part.service'
 import { ItemListComponent } from '../item-list/item-list.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import $ from 'jquery';
+import { Project } from '../../core/Interfaces/Project.interface';
+import { TreeComponent } from "../tree/tree.component";
 
 @Component({
   selector: 'app-side-panel',
   standalone: true,
-  imports: [ItemListComponent,FormsModule,CommonModule],
+  imports: [ItemListComponent, FormsModule, CommonModule, TreeComponent],
   templateUrl: './side-panel.component.html',
   styleUrl: './side-panel.component.css'
 })
-export class SidePanelComponent implements AfterViewInit{
+export class SidePanelComponent implements OnChanges{
   searchTerm: string = '';
   filteredItems: Part[] = [];
 
   @Output() partSelected = new EventEmitter<Part>();
   @Output() partSelectedDrop = new EventEmitter<string>();
+  @Input() selectedProject: Project |null = null;
+  @Input() selectedPart: Part |null = null;
+  @Input() partChecked: Part |null = null;
+  @Output() partCheckedTree = new EventEmitter<Part>();
 
 
   constructor(private partService: PartService) {}
-
+  ngOnChanges(): void {
+    if(this.selectedProject){
+      this.searchTerm = this.selectedProject?.projectName;
+    }
+  }
+  onPartChecked(partChecked: Part) {
+    this.partCheckedTree.emit(partChecked);
+  }
   onSearchChange(event: Event) {
     const input = event.target as HTMLInputElement; 
-    this.searchTerm = input.value;
+    this.searchTerm = input.value;    
 
     if (this.searchTerm) {
       this.partService.getPartById(this.searchTerm).subscribe(
         (parts: Part[]) => {
           this.filteredItems = parts; 
-          console.log(parts); 
         },
         (error) => {
           console.error('Error fetching parts:', error);
