@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 /* styles.css */
 @import "jstree/dist/themes/default/style.css";
+@import "ag-grid-community/styles/ag-grid.css";
+@import "ag-grid-community/styles/ag-theme-alpine.css";  
 
 
 html, body { height: 100%; }

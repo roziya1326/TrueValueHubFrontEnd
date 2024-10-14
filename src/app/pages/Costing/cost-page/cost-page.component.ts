@@ -21,6 +21,8 @@ import { ProjectService } from '../../../Services/project.service';
 export class CostPageComponent implements OnInit {
   selectedProject: Project |null = null;
   @Input() partCheckedTree: Part |null = null;
+  @Input() searchedProject: Project |null = null;
+
   partChanged : number = 0;
   constructor(private route: ActivatedRoute, private projectService: ProjectService) {
   }
@@ -37,6 +39,18 @@ export class CostPageComponent implements OnInit {
     console.log(partChecked);
     
   }
+  onProjectSearched(searchedProject: any) {
+    // this.partChanged++;
+    // this.selectedPart = partChecked;
+     console.log(searchedProject);
+    this.selectedProject= searchedProject;
+    if (searchedProject.parts && searchedProject.parts.$values && searchedProject.parts.$values.length > 0) {
+        this.selectedPart = searchedProject.parts.$values[0];
+    } else {
+        this.selectedPart = null; // or handle the case when there are no parts
+    }
+  }
+
   fetchSelectedProject(projectId: number) {
     this.projectService.getProjectById(projectId).subscribe(
       (project: any) => {
@@ -56,7 +70,7 @@ export class CostPageComponent implements OnInit {
     );
   }
   
-  selectedPart: Part | null = null;
+  selectedPart: any |null = null;
   
 
   onPartSelected(part: Part) {

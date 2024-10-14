@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import $ from 'jquery';
 import { Project } from '../../core/Interfaces/Project.interface';
 import { TreeComponent } from "../tree/tree.component";
+import { ProjectService } from '../../Services/project.service';
 
 @Component({
   selector: 'app-side-panel',
@@ -17,7 +18,7 @@ import { TreeComponent } from "../tree/tree.component";
 })
 export class SidePanelComponent implements OnChanges{
   searchTerm: string = '';
-  filteredItems: Part[] = [];
+  filteredItems: Project[] = [];
 
   @Output() partSelected = new EventEmitter<Part>();
   @Output() partSelectedDrop = new EventEmitter<string>();
@@ -25,9 +26,10 @@ export class SidePanelComponent implements OnChanges{
   @Input() selectedPart: Part |null = null;
   @Input() partChecked: Part |null = null;
   @Output() partCheckedTree = new EventEmitter<Part>();
+  @Output() searchedProject = new EventEmitter<Project>();
 
 
-  constructor(private partService: PartService) {}
+  constructor(private projectService: ProjectService) {}
   ngOnChanges(): void {
     console.log(this.selectedProject);
     
@@ -43,13 +45,11 @@ export class SidePanelComponent implements OnChanges{
     this.searchTerm = input.value;    
 
     if (this.searchTerm) {
-      this.partService.getPartById(this.searchTerm).subscribe(
-        (parts: Part[]) => {
-          this.filteredItems = parts; 
-        },
-        (error) => {
-          console.error('Error fetching parts:', error);
-          this.filteredItems = []; 
+      this.projectService.getProjectByName(this.searchTerm).subscribe(
+        (projects: any) => {
+          this.filteredItems = projects.$values; 
+          console.log(this.filteredItems);
+          
         }
       );
     } else {
@@ -57,11 +57,12 @@ export class SidePanelComponent implements OnChanges{
     }
   
   }
-  selectPart(part: Part) {
-    this.searchTerm = part.internalPartNumber; 
+  selectPart(project: Project) {
+    this.searchTerm = project.projectName; 
     this.filteredItems = []; 
-    this.partSelectedDrop.emit(part.internalPartNumber); 
-    this.partSelected.emit(part); 
+    this.searchedProject.emit(project);
+    // this.partSelectedDrop.emit(project.projectName); 
+    // this.partSelected.emit(part); 
 
   }
   ngAfterViewInit(): void {
@@ -69,45 +70,7 @@ export class SidePanelComponent implements OnChanges{
     tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new (window as any).bootstrap.Tooltip(tooltipTriggerEl);
     });
-    // this.initializeJsTree();
   }
-  
-
-  // initializeJsTree() {
-  //   // Initialize jsTree with checkbox plugin
-  //   $('#tree-container').jstree({
-  //     'core': {
-  //       'data': [
-  //         {
-  //           'text': 'Item 1',
-  //           'children': [
-  //             { 'text': 'Sub Item 1-1', 'id': 'item1-1' },
-  //             { 'text': 'Sub Item 1-2', 'id': 'item1-2' }
-  //           ]
-  //         },
-  //         { 'text': 'Item 2', 'id': 'item2' }
-  //       ]
-  //     },
-  //     'checkbox': {
-  //       'keep_selected_style': false,
-  //       'three_state': false // Disables cascading selection (parents/children)
-  //     },
-  //     'plugins': ['checkbox']
-  //   });
-
-  //   // Allow only one checkbox to be selected at a time
-  //   $('#tree-container').on('changed.jstree', (e: any, data: any) => {
-  //     if (data.action === 'select_node') {
-  //       const selectedNodes = $('#tree-container').jstree('get_selected', true);
-  //       // Uncheck all nodes except the currently selected one
-  //       selectedNodes.forEach((node: any) => {
-  //         if (node.id !== data.node.id) {
-  //           $('#tree-container').jstree('deselect_node', node.id);
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
 
   
 }

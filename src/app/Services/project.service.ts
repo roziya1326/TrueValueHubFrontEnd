@@ -22,6 +22,9 @@ export class ProjectService {
   getProjectById(projectId: number): Observable<any>{
     return this.http.get<any>(`${this.getUrl}/${projectId}`)
   }
+  getProjectByName(projectName:string):Observable<any>{
+    return this.http.get<any>(`${this.getUrl}/name/${projectName}`)
+  }
 
   private projectData: any = null;
   setProjectData(project: any) {

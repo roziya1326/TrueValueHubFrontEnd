@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Part } from '../../core/Interfaces/Part.interface';
-import { PartDto } from '../../core/Interfaces/PartDto.interface';
 import { Material } from '../../core/Interfaces/Material.interface';
 import $ from 'jquery';
 import 'jstree';
@@ -32,7 +31,6 @@ treeData: TreeNode[] = [];
 selectedNode: TreeNode | null = null;
 
 ngOnChanges() {
-  // Load the tree data from the selected project
   if (this.selectedProject) {
     this.treeData = this.convertProjectToTreeNode(this.selectedProject);
     this.initializeJsTree();
@@ -40,7 +38,7 @@ ngOnChanges() {
 }
 
 convertProjectToTreeNode(project: any): TreeNode[] {
-  const parts = project.parts || []; // Assume project has a parts property
+  const parts = project.parts || [];
   return parts.$values.map((part: any) => this.convertPartToTreeNode(part)).flat();
 }
 
@@ -77,7 +75,7 @@ onSelect(node: TreeNode) {
     this.selectedNode = node;
     
     if (node.partData) {
-      this.selectedPart = node.partData; // Update selectedPart
+      this.selectedPart = node.partData; 
       this.partChecked.emit(this.selectedPart);
     }
   }
@@ -91,18 +89,54 @@ initializeJsTree() {
   $(this.treeContainer.nativeElement).jstree("destroy").empty();
 
   $(this.treeContainer.nativeElement).jstree({
-    'core': {
-      'data': this.treeData
+    core: {
+      data: this.treeData
     },
-    'plugins': ['checkbox', 'state'], 
-    'checkbox': {
-      'keep_selected_style': false
-    }
+    plugins: ['checkbox','state'], 
+    checkbox: {
+      keep_selected_style: false,
+     
+      }
   }).on('ready.jstree', () => {
     $(this.treeContainer.nativeElement).jstree('open_all');
   });
 
   $(this.treeContainer.nativeElement).on('select_node.jstree', (e, data) => {
+    const selectedNode = data.node;
+    console.log(selectedNode, "yeee");
+
+    
+    if (selectedNode.data) {
+      this.selectedPart = selectedNode.data; 
+      this.partChecked.emit(this.selectedPart);
+    }
+    
+  });
+}
+initializeJsTree1(): void {
+  // If the selectedProject or its parts are not yet loaded, skip initialization
+  
+    
+
+    // Initialize or refresh the jsTree
+    // $('#projectTree').jstree(true)?.destroy(); // Destroy existing tree if any
+    if ($('#treeContainer').jstree(true)) {
+      $('#treeContainer').jstree(true).destroy();
+    }
+    $('#treeContainer').jstree({
+      core: {
+        data: this.treeData
+      },
+      plugins: ['checkbox'], // Enable checkbox plugin
+    checkbox: {
+      keep_selected_style: true, // Optional: To manage selected style via CSS
+      three_state: true, // If true, parents get selected if children are selected
+      cascade: 'undetermined',
+      tie_selection:true // Manage checkbox behavior for parent-child relations
+    }
+    });
+    
+  $('#treeContainer').on('select_node.jstree', (e, data) => {
     const selectedNode = data.node;
     console.log(selectedNode, "yeee");
     
@@ -111,6 +145,7 @@ initializeJsTree() {
       this.partChecked.emit(this.selectedPart);
     }
   });
+  
+ 
 }
-
 }

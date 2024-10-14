@@ -1,7 +1,7 @@
 <div class="cost-page-container">
     <app-navbar></app-navbar>
     <div class="main-content">
-      <app-side-panel [selectedProject]="selectedProject" [selectedPart]="selectedPart" (partCheckedTree)="onPartChecked($event)" ></app-side-panel>
+      <app-side-panel [selectedProject]="selectedProject" [selectedPart]="selectedPart" (partCheckedTree)="onPartChecked($event)" (searchedProject)="onProjectSearched($event)" ></app-side-panel>
       <!-- <app-item-list [selectedPart]="selectedPart"></app-item-list> -->
       <app-item-list-new [selectedPart]="selectedPart" [partChanged]="partChanged"></app-item-list-new>
       <app-cost-summary></app-cost-summary>

@@ -21,7 +21,7 @@
             class="list-group-item"
             (click)="selectPart(item)"
             >
-            {{ item.internalPartNumber }}
+            {{ item.projectName }}
             </li>
         </ul>
         </div>
@@ -39,7 +39,7 @@
         </div>
 
         <div class="frame-item card">
-            <app-tree [selectedProject]="selectedProject" [selectedPart]="selectedPart"(partChecked)="onPartChecked($event)" ></app-tree>
+            <app-tree  [selectedProject]="selectedProject" [selectedPart]="selectedPart"(partChecked)="onPartChecked($event)" ></app-tree>
         </div>
     
             <div class="add-remove-buttons">
