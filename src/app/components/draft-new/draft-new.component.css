@@ -1,0 +1,12 @@
+.ag-theme-alpine {
+    --ag-foreground-color: #1a1a1a;
+    --ag-background-color: #f5f5f5;
+  }
+  .ag-icon-expanded::before {
+    content: '\25BC'; /* Down Arrow */
+  }
+  
+  .ag-icon-contracted::before {
+    content: '\25B6'; /* Right Arrow */
+  }
+  

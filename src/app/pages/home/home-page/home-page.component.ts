@@ -11,11 +11,12 @@ import { PartDto } from '../../../core/Interfaces/PartDto.interface';
 import { ToastrService } from 'ngx-toastr';
 import { DraftComponent } from '../../../components/draft/draft.component';
 import { CommonModule } from '@angular/common';
+import { DraftNewComponent } from "../../../components/draft-new/draft-new.component";
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [NavbarComponent,ReactiveFormsModule,MatButtonModule,MatInputModule,MatTabsModule, DraftComponent,CommonModule ],
+  imports: [NavbarComponent, ReactiveFormsModule, MatButtonModule, MatInputModule, MatTabsModule, DraftComponent, CommonModule, DraftNewComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })

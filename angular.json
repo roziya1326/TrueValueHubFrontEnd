@@ -34,9 +34,9 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.css",
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/ag-grid-community/styles/ag-grid.css",
-              "node_modules/ag-grid-community/styles/ag-theme-alpine.css",
-              "node_modules/jstree/dist/themes/default/style.min.css"
+              "node_modules/jstree/dist/themes/default/style.min.css",
+              "node_modules/ag-grid-enterprise/styles/ag-grid.css",
+              "node_modules/ag-grid-enterprise/styles/ag-theme-alpine.css"
             ],
             "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
              "node_modules/jquery/dist/jquery.min.js",
