@@ -58,6 +58,7 @@ export class HomePageComponent {
 
   selectTab(tab: string) {
     this.selectedTab = tab;
+    localStorage.setItem('selectedTab', tab);
   }
 
   handleFiles(files: FileList) {
@@ -144,6 +145,10 @@ export class HomePageComponent {
     document.addEventListener('drop', this.onFileDropped.bind(this));
     document.addEventListener('dragover', this.onDragOver.bind(this));
     document.addEventListener('dragleave', this.onDragLeave.bind(this));
+    const storedTab = localStorage.getItem('selectedTab');
+    if (storedTab) {
+      this.selectedTab = storedTab;
+    }
   }
 
   ngOnDestroy() {

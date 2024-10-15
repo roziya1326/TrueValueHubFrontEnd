@@ -14,11 +14,11 @@
         <td [ngClass]="{'selected-row': selectedRowIndex === i}">{{ material.cost | number : "1.3-3" }}</td>
         <td class="action-icons" [ngClass]="{'selected-row': selectedRowIndex === i}">
           <i
-            class="bi bi-pencil-square edit-icon"
+            class="bi bi-pencil-square edit-icon" data-bs-toggle="tooltip" data-placement="left"title="Edit the material"
             (click)="toggleEditForm(i)"
           ></i>
           <i
-            class="bi bi-trash delete-icon"
+            class="bi bi-trash delete-icon"  data-bs-toggle="tooltip" data-placement="left"title="delete the material"
             (click)="
               showDeleteConfirmation(material.materialId)
             "

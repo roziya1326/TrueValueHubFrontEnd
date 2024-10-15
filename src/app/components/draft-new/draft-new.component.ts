@@ -13,13 +13,14 @@ import { Router } from '@angular/router';
 export class DraftNewComponent {
   rowData: any[] = [];
   autoGroupColumnDef = {
-    headerName: 'Project Id',
+    headerName: 'Project Id ',
     cellRendererParams: { suppressCount: true },  
     minWidth: 200,  
   };
   columnDefs = [
-    { field: 'projectId', rowGroup: true, hide: true},
-    { headerName: 'Project Name', field: 'projectName' },
+    { headerName: 'Project Id', field: 'projectId' ,rowGroup: true, 
+      hide: true,},
+    { headerName: 'Project Name',field: 'projectName' },
     { headerName: 'Description', field: 'description' },
     { headerName: 'Created Date', field: 'createdDate'},
     {
@@ -49,9 +50,11 @@ export class DraftNewComponent {
   detailCellRendererParams = {
     detailGridOptions: {
       columnDefs: [
-        { headerName: 'Part ID', field: 'partId' , minWidth: 300 },
-        { headerName: 'Part Name', field: 'partName', minWidth: 300 },
-        { headerName: 'Supplier Name', field: 'supplierName', minWidth: 300 }
+        { headerName: 'Part ID', field: 'partId' , minWidth: 200 },
+        { headerName: 'Part Name', field: 'partName', minWidth: 250 },
+        { headerName: 'Supplier Name', field: 'supplierName', minWidth: 250 },
+        { headerName: 'Delivery Site Name', field: 'deliverySiteName', minWidth: 250 }
+
       ],
       defaultColDef: {
         sortable: true,
@@ -62,14 +65,7 @@ export class DraftNewComponent {
       params.successCallback(params.data.parts || []);
     }
   };
-  gridOptions = {
-    masterDetail: true,  // Enable master/detail mode
-    detailCellRendererParams: this.detailCellRendererParams,
-    columnDefs: this.columnDefs,
-    defaultColDef: this.defaultColDef,
-    groupDisplayType: 'singleColumn',
-
-  };
+ 
   constructor(private projectService: ProjectService, private router: Router) {}
 
   ngOnInit() {
@@ -89,6 +85,7 @@ export class DraftNewComponent {
               partId: part.partId,
               partName: part.internalPartNumber,
               supplierName: part.supplierName,
+              deliverySiteName:part.deliverySiteName
             }))
             : []
         }));

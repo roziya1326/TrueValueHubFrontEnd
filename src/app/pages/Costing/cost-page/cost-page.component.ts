@@ -47,7 +47,7 @@ export class CostPageComponent implements OnInit {
     if (searchedProject.parts && searchedProject.parts.$values && searchedProject.parts.$values.length > 0) {
         this.selectedPart = searchedProject.parts.$values[0];
     } else {
-        this.selectedPart = null; // or handle the case when there are no parts
+        this.selectedPart = null;
     }
   }
 

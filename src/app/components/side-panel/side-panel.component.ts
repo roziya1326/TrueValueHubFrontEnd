@@ -49,7 +49,6 @@ export class SidePanelComponent implements OnChanges{
         (projects: any) => {
           this.filteredItems = projects.$values; 
           console.log(this.filteredItems);
-          
         }
       );
     } else {
