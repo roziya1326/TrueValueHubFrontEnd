@@ -95,57 +95,22 @@ initializeJsTree() {
     plugins: ['checkbox','state'], 
     checkbox: {
       keep_selected_style: false,
-     
-      }
+      two_state : true,
+      three_state: false
+      },
+   
   }).on('ready.jstree', () => {
     $(this.treeContainer.nativeElement).jstree('open_all');
   });
 
   $(this.treeContainer.nativeElement).on('select_node.jstree', (e, data) => {
     const selectedNode = data.node;
-    console.log(selectedNode, "yeee");
-
-    
-    if (selectedNode.data) {
-      this.selectedPart = selectedNode.data; 
-      this.partChecked.emit(this.selectedPart);
-    }
-    
-  });
-}
-initializeJsTree1(): void {
-  // If the selectedProject or its parts are not yet loaded, skip initialization
-  
-    
-
-    // Initialize or refresh the jsTree
-    // $('#projectTree').jstree(true)?.destroy(); // Destroy existing tree if any
-    if ($('#treeContainer').jstree(true)) {
-      $('#treeContainer').jstree(true).destroy();
-    }
-    $('#treeContainer').jstree({
-      core: {
-        data: this.treeData
-      },
-      plugins: ['checkbox'], // Enable checkbox plugin
-    checkbox: {
-      keep_selected_style: true, // Optional: To manage selected style via CSS
-      three_state: true, // If true, parents get selected if children are selected
-      cascade: 'undetermined',
-      tie_selection:true // Manage checkbox behavior for parent-child relations
-    }
-    });
-    
-  $('#treeContainer').on('select_node.jstree', (e, data) => {
-    const selectedNode = data.node;
-    console.log(selectedNode, "yeee");
+    $(this.treeContainer.nativeElement).jstree('check_node.jstree', selectedNode);
     
     if (selectedNode.data) {
       this.selectedPart = selectedNode.data; 
       this.partChecked.emit(this.selectedPart);
     }
   });
-  
- 
 }
 }

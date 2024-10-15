@@ -12,14 +12,8 @@ import { Router } from '@angular/router';
 })
 export class DraftNewComponent {
   rowData: any[] = [];
-  autoGroupColumnDef = {
-    headerName: 'Project Id ',
-    cellRendererParams: { suppressCount: true },  
-    minWidth: 200,  
-  };
   columnDefs = [
-    { headerName: 'Project Id', field: 'projectId' ,rowGroup: true, 
-      hide: true,},
+    { headerName: 'Project Id', field: 'projectId' ,cellRenderer: 'agGroupCellRenderer'},
     { headerName: 'Project Name',field: 'projectName' },
     { headerName: 'Description', field: 'description' },
     { headerName: 'Created Date', field: 'createdDate'},
@@ -62,7 +56,7 @@ export class DraftNewComponent {
       }
     },
     getDetailRowData: (params: any) => {
-      params.successCallback(params.data.parts || []);
+      params.successCallback(params.data.parts);
     }
   };
  
