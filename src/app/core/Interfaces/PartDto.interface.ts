@@ -1,4 +1,3 @@
-
 export interface PartDto {
     partId: number;
     internalPartNumber: string;
@@ -17,5 +16,5 @@ export interface PartDto {
     lifetimeQuantityRemaining: number;
     projectId: number;
     parentId: number;
-    childParts?: PartDto[];
+    childParts?: PartDto[];    
   }

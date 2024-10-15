@@ -31,7 +31,7 @@
                                     <!-- Row 1 -->
                                     <div class="row">
                                         <div class="col-md-4">
-                                        <label for="internalPartNumber"  data-bs-toggle="tooltip" title="Enter the unique part number assigned internally">Internal Part Number</label>
+                                        <label for="internalPartNumber"  data-bs-toggle="tooltip" >Internal Part Number</label>
                                         <app-info-icon [infoMessage]="item.content.data[0].infoMessage"></app-info-icon>
                                         <input
                                             id="internalPartNumber"
@@ -104,6 +104,7 @@
                                         </div>
                                         <div class="col-md-4">
                                         <label for="incoTerms" data-bs-toggle="tooltip" title="Select the site where the part will be delivered">Incoterms</label>
+                                        <app-info-icon [infoMessage]="item.content.data[3].infoMessage"></app-info-icon>
                                         <input
                                             id="incoTerms"
                                             type="text"

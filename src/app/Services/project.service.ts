@@ -10,9 +10,27 @@ import { environment } from '../environments/environment';
 export class ProjectService {
  
   private apiUrl = environment.apiUrl+'/Project/upload';
+  private getUrl = environment.apiUrl+'/Project';
 
   constructor(private http: HttpClient) { }
   createProject(projectDto: Project): Observable<any> {
     return this.http.post<any>(this.apiUrl, projectDto);
+  }
+  getDraftProjects():Observable<any>{
+    return this.http.get<any>(this.getUrl);
+  }
+  getProjectById(projectId: number): Observable<any>{
+    return this.http.get<any>(`${this.getUrl}/${projectId}`)
+  }
+  getProjectByName(projectName:string):Observable<any>{
+    return this.http.get<any>(`${this.getUrl}/name/${projectName}`)
+  }
+
+  private projectData: any = null;
+  setProjectData(project: any) {
+    this.projectData = project;
+  }
+  getProjectData() {
+    return this.projectData;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Part } from '../../core/Interfaces/Part.interface';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,7 +27,8 @@ export class MaterialInformationComponent {
   isChanged = false;
   editingMaterialId: number | null = null;
   editIndex: number | null = null;
- 
+  @Input() isExpanded: boolean = false;
+
   isMaterialFormChanged: boolean = false;
   @ViewChild(MaterialTableComponent) materialTableComponent!:MaterialTableComponent;
   isInitialized: any;
@@ -52,10 +53,17 @@ export class MaterialInformationComponent {
     }
   ];
   ngOnInit() {
+    console.log(this.selectedPart);  
   }
-  ngOnChanges() {
-    if (this.selectedPart) {
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(this.selectedPart);  
+
+    if (this.selectedPart && changes['selectedPart'] ) {
       this.updateMaterialInformation(this.selectedPart);
+    }
+    
+    if (changes['isExpanded']) {
+      this.items.forEach(item => item.isExpanded = this.isExpanded);
     }
   }
 
@@ -71,6 +79,7 @@ export class MaterialInformationComponent {
   toggleItem(item: { isExpanded: boolean }) {
     item.isExpanded = !item.isExpanded;
   }
+  
 
   isIterable(data: any): boolean {
     return (
@@ -92,7 +101,7 @@ export class MaterialInformationComponent {
 
   }
   onFormChanged(isChanged: boolean) {
- 
+
   this.materialFormChanged.emit(isChanged); 
  }
  

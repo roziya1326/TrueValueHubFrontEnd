@@ -31,20 +31,81 @@ mat-tab-group {
   button:not(:disabled):hover {
     background-color: #303f9f;
   }
-  .file-upload-container {
-    margin-top: 20px;
+
+  .file-drop-zone {
+    border: 2px dashed #007bff; 
+    padding: 20px; 
+    margin: 20px 0;
+    text-align: center;
+    transition: background-color 0.3s; 
+    min-height: 100px; 
+    cursor: pointer; 
+    margin-top: 5px;
+  }
+  
+  .file-drop-zone.drag-over {
+    background-color: rgba(0, 123, 255, 0.1); 
+  }
+  
+  .blur {
+    filter: blur(5px); 
+    pointer-events: none; 
+  }
+ 
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+  
+  .custom-tab {
+    display: flex;
+    border-bottom: 1px solid #8aadf5;
+  }
+  
+  .tablinks {
+    background-color: inherit;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+    color: grey;
+    width: 250px;
+  }
+  
+  .tablinks:hover {
+    background-color: #dbe4f9;
+  }
+  
+  .tablinks.active {
+    background-color: #ccc;
+    font-weight: bold;
+  }
+  
+  .tabcontent {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: block; 
+    position: absolute; 
+    top: 200px; 
+    left: 100px;
   }
   
   .file-drop-zone {
     border: 2px dashed #ccc;
     padding: 20px;
     text-align: center;
-    cursor: pointer;
-    margin-bottom: 10px;
   }
   
-  .file-drop-zone.drag-over {
-    border-color: #3f51b5;
-    background-color: #f1f1f1;
+  .upload-link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .file-selected {
+    margin-top: 10px;
   }
   
