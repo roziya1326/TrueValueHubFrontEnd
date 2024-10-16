@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { AgGridModule } from 'ag-grid-angular';
 import { ProjectService } from '../../Services/project.service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-draft-new',
   standalone: true,
   imports: [AgGridModule],
+  providers: [DatePipe],
   templateUrl: './draft-new.component.html',
   styleUrl: './draft-new.component.css'
 })
@@ -60,7 +62,7 @@ export class DraftNewComponent {
     }
   };
  
-  constructor(private projectService: ProjectService, private router: Router) {}
+  constructor(private projectService: ProjectService, private router: Router, private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.fetchDraftProjects();
@@ -73,7 +75,7 @@ export class DraftNewComponent {
           projectId: project.projectId,
           projectName: project.projectName,
           description: project.description,
-          createdDate: project.createdDate,
+          createdDate: this.datePipe.transform(project.createdDate, 'dd/MM/yyyy'),
           parts: project.parts && project.parts.$values
             ? project.parts.$values.map((part: any) => ({
               partId: part.partId,
