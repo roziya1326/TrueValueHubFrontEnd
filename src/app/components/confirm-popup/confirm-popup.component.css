@@ -39,20 +39,23 @@
   
   .confirmbtn {
     color: rgb(0, 0, 0);
-    border: 2px solid var(--add-entry-btn-border);
+    border: 2px solid black;
     border-radius: 10px;
   }
   .cancelbtn {
     color: rgb(0, 0, 0);
-    border: 2px solid var(--delete-btn);
+    border: 2px solid black;
     border-radius: 10px;
     margin-left: 5px;
+
   }
   .cancelbtn:hover {
-    background-color: var(--delete-btn);
+    background-color: black;
+    color : white
   }
   
   .confirmbtn:hover {
-    background-color: var(--add-entry-btn-hover);
+    background-color: black;
+    color: white;
   }
   

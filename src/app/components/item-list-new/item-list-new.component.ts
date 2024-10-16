@@ -22,13 +22,13 @@ export class ItemListNewComponent implements OnInit, OnChanges{
   @Input() partChanged: number = 0;
 
   isLoading = false;
-  buttonColor: string = 'blue';
+  buttonColor: string = '';
   isInitialized: number = 0; 
   isMaterialInitialized : number = 0;
   @ViewChild('partInfoComponent') partInfoComponent!: PartInformationComponent;
   @ViewChild(MaterialInformationComponent) materialInformationComponent!:MaterialInformationComponent;
   ngOnInit() {
-    this.buttonColor = 'blue';
+    this.buttonColor = '';
     this.isInitialized++; 
   }
   ngOnChanges(){
@@ -48,25 +48,25 @@ export class ItemListNewComponent implements OnInit, OnChanges{
   onFormChanged(isChanged: boolean) {
     this.isInitialized++; 
     if (this.isInitialized >=3) {
-      isChanged? this.buttonColor = 'red':this.buttonColor = 'blue';
+      isChanged? this.buttonColor = 'red':this.buttonColor = '';
     }
   }
   onMaterialFormChanged(isMaterialChanged: boolean) {
     this.isMaterialInitialized++; 
     if (this.isMaterialInitialized >=1) {
-    isMaterialChanged? this.buttonColor = 'red':this.buttonColor = 'blue';
+    isMaterialChanged? this.buttonColor = 'red':this.buttonColor = '';
     }
   }
   isExpanded = false;
 
   expandAll() {
-    this.buttonColor = "blue";
+    this.buttonColor = "";
     this.isExpanded = true;
   }
 
   collapseAll() {
     this.isExpanded = false;
-    this.buttonColor = "blue";
+    this.buttonColor = "";
   }
   recalculateCost(){
   }

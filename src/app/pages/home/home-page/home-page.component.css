@@ -18,18 +18,19 @@ mat-tab-group {
   
   button {
     cursor: pointer;
-    background-color: #3f51b5;
-    color: white;
+    background-color:#007bff;
+    color: black;
     border: none;
     transition: background 0.3s;
   }
   
   button:disabled {
     background-color: #cccccc;
+    color: grey;
   }
   
   button:not(:disabled):hover {
-    background-color: #303f9f;
+    background-color: #6b79d6;
   }
 
   .file-drop-zone {
@@ -41,10 +42,6 @@ mat-tab-group {
     min-height: 100px; 
     cursor: pointer; 
     margin-top: 5px;
-  }
-  
-  .file-drop-zone.drag-over {
-    background-color: rgba(0, 123, 255, 0.1); 
   }
   
   .blur {
@@ -60,27 +57,28 @@ mat-tab-group {
   
   .custom-tab {
     display: flex;
-    border-bottom: 1px solid #8aadf5;
+    border-bottom: 1px solid#84a5f3;
   }
   
+  
   .tablinks {
-    background-color: inherit;
+    background-color: #ccc;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     outline: none;
     transition: background-color 0.3s;
-    color: grey;
-    width: 250px;
+    color: black;
+    width: 280px;
   }
   
   .tablinks:hover {
-    background-color: #dbe4f9;
+    background-color: #84a5f3;
   }
   
   .tablinks.active {
-    background-color: #ccc;
-    font-weight: bold;
+    background-color:#c4d1ec  ;
+    color: black;
   }
   
   .tabcontent {
@@ -100,12 +98,22 @@ mat-tab-group {
   }
   
   .upload-link {
-    color: blue;
+    color: rgb(0, 123, 255);
     text-decoration: underline;
     cursor: pointer;
   }
   
   .file-selected {
     margin-top: 10px;
+  }
+  label::after {
+    content: '*';
+    color: red;
+    margin-left: 5px; 
+  }
+  .file-drop-zone.drag-over {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
   }
   

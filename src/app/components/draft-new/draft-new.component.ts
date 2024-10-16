@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { AgGridModule } from 'ag-grid-angular';
 import { ProjectService } from '../../Services/project.service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-draft-new',
   standalone: true,
   imports: [AgGridModule],
+  providers: [DatePipe],
   templateUrl: './draft-new.component.html',
   styleUrl: './draft-new.component.css'
 })
@@ -20,8 +22,9 @@ export class DraftNewComponent {
     {
       headerName: 'Action',
       field: '',
+      width: 190,
       cellRenderer: (params: any) => {
-        return `<button class="edit-button btn btn-sm btn-outline-primary" data-action="edit">
+        return `<button class="edit-button btn btn-sm btn-outline-primary" data-action="edit"data-bs-toggle="tooltip" data-placement="left"title="Edit Project">
               <i class="bi bi-pencil-fill"></i>
             </button>`;
       },
@@ -30,8 +33,9 @@ export class DraftNewComponent {
           this.onEditClick(params.data);
         }
       },
-      width: 200,
-      cellStyle: { textAlign: 'center' }
+      cellStyle: { textAlign: 'center' },
+      sortable:false,
+      filter:false
     }
   ];
 
@@ -47,7 +51,7 @@ export class DraftNewComponent {
         { headerName: 'Part ID', field: 'partId' , minWidth: 200 },
         { headerName: 'Part Name', field: 'partName', minWidth: 250 },
         { headerName: 'Supplier Name', field: 'supplierName', minWidth: 250 },
-        { headerName: 'Delivery Site Name', field: 'deliverySiteName', minWidth: 250 }
+        { headerName: 'Delivery Site Name', field: 'deliverySiteName', minWidth: 230 }
 
       ],
       defaultColDef: {
@@ -60,7 +64,7 @@ export class DraftNewComponent {
     }
   };
  
-  constructor(private projectService: ProjectService, private router: Router) {}
+  constructor(private projectService: ProjectService, private router: Router, private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.fetchDraftProjects();
@@ -73,7 +77,7 @@ export class DraftNewComponent {
           projectId: project.projectId,
           projectName: project.projectName,
           description: project.description,
-          createdDate: project.createdDate,
+          createdDate: this.datePipe.transform(project.createdDate, 'dd/MM/yyyy'),
           parts: project.parts && project.parts.$values
             ? project.parts.$values.map((part: any) => ({
               partId: part.partId,

@@ -1,61 +1,66 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { ProjectService } from '../../Services/project.service';
 import { AgGridModule } from 'ag-grid-angular';
-import { Router } from '@angular/router';
+import { Router, withDebugTracing } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DatePipe } from '@angular/common';
+
 import "ag-grid-enterprise";
 
-import { LicenseManager } from "ag-grid-enterprise";
+import { AutoWidthCalculator, LicenseManager } from "ag-grid-enterprise";
 LicenseManager.setLicenseKey('[TRIAL]_this_{AG_Charts_and_AG_Grid}_Enterprise_key_{AG-067942}_is_granted_for_evaluation_only___Use_in_production_is_not_permitted___Please_report_misuse_to_legal@ag-grid.com___For_help_with_purchasing_a_production_key_please_contact_info@ag-grid.com___You_are_granted_a_{Single_Application}_Developer_License_for_one_application_only___All_Front-End_JavaScript_developers_working_on_the_application_would_need_to_be_licensed___This_key_will_deactivate_on_{15 November 2024}____[v3]_[0102]_MTczMTYyODgwMDAwMA==0f38fbd34b7ae4abb7c4e7ab5499fcc2');
 
 @Component({
   selector: 'app-draft',
   standalone: true,
-  imports: [AgGridModule],
+  imports: [AgGridModule,MatTooltipModule],
   templateUrl: './draft.component.html',
   styleUrl: './draft.component.css'
 })
-export class DraftComponent {
+export class DraftComponent  {
   rowData: any[] = [];
   selectedProject: any = null; 
   columnDefs = [
-    { headerName: 'Project ID', field: 'projectId' },
-    { headerName: 'Project Name', field: 'projectName' },
+    { headerName: 'Project ID', field: 'projectId', minWidth: 10  },
+    { headerName: 'Project Name', field: 'projectName',width:-10 },
     { headerName: 'Description', field: 'description' },
     { headerName: 'Created Date', field: 'createdDate' },
     {
-      headerName: 'Action',
+      headerName: 'Action',      
       field: '',
+      width:2,
       cellRenderer: (params: any) => {
-        return `<button class="edit-button btn btn-sm btn-outline-primary" data-action="edit">
+        return `<button class="edit-button btn btn-sm btn-outline-primary" data-action="edit"  >
               <i class="bi bi-pencil-fill"></i>
             </button>`;
       },
+     
       onCellClicked: (params: any) => {
         if (params.event.target) {          
           this.onEditClick(params.data);  
         }
       },
-      width: 200,
-      cellStyle: { textAlign: 'center' }
+      sortable: false,
+      filter: false,
     }
   ];
 
   defaultColDef = {
     sortable: true,
     filter: true,
-    resizable: true,
   };
   detailCellRendererParams = {
     detailGridOptions: {
       columnDefs: [
-        { headerName: 'Part ID', field: 'partId' },
-        { headerName: 'Part Name', field: 'partName' },
-        { headerName: 'Supplier Name', field: 'supplierName' }
+        { headerName: 'Part ID', field: 'partId',width:5 },
+        { headerName: 'Part Name', field: 'partName' ,width:5},
+        { headerName: 'Supplier Name', field: 'supplierName',width:5 }
       ],
       defaultColDef: {
         sortable: true,
         filter: true,
-      }
+      },
+      width:10
     },
     getDetailRowData: (params: any) => {
       console.log('Detail row data (parts):', params.data.parts);  
@@ -71,7 +76,7 @@ export class DraftComponent {
   
   
 
-  constructor(private projectService: ProjectService, private router:Router) {}
+  constructor(private projectService: ProjectService, private router:Router, private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.fetchDraftProjects();
@@ -84,7 +89,7 @@ export class DraftComponent {
           projectId: project.projectId,
           projectName: project.projectName,
           description: project.description,
-          createdDate:project.createdDate,
+          createdDate:this.datePipe.transform(project.createdDate, 'dd/MM/yyyy'),
           parts: project.parts && project.parts.$values ? project.parts.$values.map((part: any) => ({
             partId: part.partId,
             partName: part.internalPartNumber, 
@@ -110,6 +115,11 @@ export class DraftComponent {
     console.log('Is row master:', isMaster); // Log if it's considered a master row
     return isMaster; // Must return true for rows with parts
   }
-  
+  // ngAfterViewInit(): void {
+  //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  //   tooltipTriggerList.map(function (tooltipTriggerEl) {
+  //     return new (window as any).bootstrap.Tooltip(tooltipTriggerEl);
+  //   });
+  // }
 
 }
