@@ -26,11 +26,5 @@ export class ProjectService {
     return this.http.get<any>(`${this.getUrl}/name/${projectName}`)
   }
 
-  private projectData: any = null;
-  setProjectData(project: any) {
-    this.projectData = project;
-  }
-  getProjectData() {
-    return this.projectData;
-  }
+ 
 }

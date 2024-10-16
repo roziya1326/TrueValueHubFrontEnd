@@ -104,22 +104,13 @@ export class DraftComponent  {
   }
  
   onEditClick(project: any) {
-    this.projectService.setProjectData(project);    
     this.router.navigate(['/costing'], { queryParams: { projectId: project.projectId } });
-
   }
 
   isRowMaster(dataItem: any) {
-    console.log('Checking if row is master:', dataItem);
     const isMaster = dataItem && dataItem.parts && dataItem.parts.length > 0;
-    console.log('Is row master:', isMaster); // Log if it's considered a master row
-    return isMaster; // Must return true for rows with parts
+    return isMaster; 
   }
-  // ngAfterViewInit(): void {
-  //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-  //   tooltipTriggerList.map(function (tooltipTriggerEl) {
-  //     return new (window as any).bootstrap.Tooltip(tooltipTriggerEl);
-  //   });
-  // }
+  
 
 }

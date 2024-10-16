@@ -108,7 +108,29 @@ export class PartInformationComponent implements OnInit,AfterViewInit {
       lifetimeQuantityRemaining: ['', [Validators.required, Validators.min(1)]],
       partComplexity:['', [Validators.required, Validators.min(1)]]
     });
-
+    this.partForm.get('annualVolume')?.valueChanges.subscribe((annualVolume: number) => {
+      if (annualVolume && annualVolume>0) {
+        const newLotSize = annualVolume / 2;
+        this.partForm.patchValue({ lotSize: newLotSize });
+        this.calculateProductLifeRemaining(newLotSize, annualVolume);
+        this.calculateLifetimeQuantityRemaining(annualVolume, this.partForm.get('productLifeRemaining')?.value);
+      }
+      else{
+        this.partForm.patchValue({ lotSize: 0, productLifeRemaining: 0 });
+      }
+    });
+    this.partForm.get('lotSize')?.valueChanges.subscribe((lotSize: number) => {
+      const annualVolume = this.partForm.get('annualVolume')?.value;
+      if (lotSize && annualVolume) {
+        this.calculateProductLifeRemaining(lotSize, annualVolume);
+      }
+    });
+    this.partForm.get('productLifeRemaining')?.valueChanges.subscribe((productLifeRemaining: number) => {
+      const annualVolume = this.partForm.get('annualVolume')?.value;
+      if (productLifeRemaining !== null && productLifeRemaining !== undefined) {
+        this.calculateLifetimeQuantityRemaining(annualVolume, productLifeRemaining);
+      }
+    });
     this.partForm.valueChanges.subscribe(() => {
       this.isPartFormChanged = true;
       this.buttonColor = 'red';
@@ -123,6 +145,14 @@ export class PartInformationComponent implements OnInit,AfterViewInit {
     if (changes['isExpanded']) {
       this.items.forEach(item => item.isExpanded = this.isExpanded);
     }
+  }
+  private calculateProductLifeRemaining(lotSize: number, annualVolume: number) {
+    const productLifeRemaining = (lotSize * annualVolume) / 3600;
+    this.partForm.patchValue({ productLifeRemaining });
+  }
+  private calculateLifetimeQuantityRemaining(annualVolume: number, productLifeRemaining: number) {
+    const lifetimeQuantityRemaining = annualVolume + productLifeRemaining;
+    this.partForm.patchValue({ lifetimeQuantityRemaining });
   }
   updatePartInformation(part: Part) {
     this.partForm.patchValue({

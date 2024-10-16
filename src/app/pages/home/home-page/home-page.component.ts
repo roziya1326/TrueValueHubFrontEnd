@@ -12,11 +12,12 @@ import { ToastrService } from 'ngx-toastr';
 import { DraftComponent } from '../../../components/draft/draft.component';
 import { CommonModule } from '@angular/common';
 import { DraftNewComponent } from "../../../components/draft-new/draft-new.component";
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [NavbarComponent, ReactiveFormsModule, MatButtonModule, MatInputModule, MatTabsModule, DraftComponent, CommonModule, DraftNewComponent],
+  imports: [NavbarComponent, ReactiveFormsModule, MatButtonModule, MatInputModule, MatTabsModule, DraftComponent, CommonModule, DraftNewComponent,MatTooltip],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
@@ -30,8 +31,7 @@ export class HomePageComponent {
   selectedFileName: string | null = null; 
   selectedTab: string = 'create';
 
-  constructor(private fb: FormBuilder, private projectService: ProjectService ,private toastr: ToastrService,
-  ) {
+  constructor(private fb: FormBuilder, private projectService: ProjectService ,private toastr: ToastrService) {
     this.createForm = this.fb.group({
       projectId: [0,Validators.required],
       projectName: ['',Validators.required],

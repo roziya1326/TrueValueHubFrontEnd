@@ -19,8 +19,10 @@
 
     <div>
       <label>Attach Files</label>
+      <div *ngIf="draggedOver" class="drop-message">
+        Drop your file here!
+      </div>
       <div class="file-drop-zone"
-      [ngClass]="{ 'drag-over': draggedOver }"
            (drop)="onFileDropped($event)"
            (dragover)="onDragOver($event)"
            (dragleave)="onDragLeave($event)">

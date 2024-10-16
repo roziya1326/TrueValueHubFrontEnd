@@ -116,4 +116,15 @@ mat-tab-group {
     background-color: rgba(0, 123, 255, 0.1);
     color: #007bff;
   }
+  .drop-message {
+    position: fixed; 
+    top: 65%; 
+    left: 35%; 
+    background-color: #c4d1ec; 
+    color: black; 
+    padding: 10px;
+    border-radius: 5px; 
+    z-index: 1000;
+    pointer-events: none; 
+  }
   
