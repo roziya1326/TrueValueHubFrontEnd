@@ -14,6 +14,7 @@ import {
 import { AccordionItem } from '../../core/Interfaces/AccordionItem.interface';
 import { HttpClient } from '@angular/common/http';
 import { InfoIconComponent } from "../../shared/info-icon/info-icon.component";
+import { Data, DeliverySite, ManufacturingCategory, PackingType, Supplier } from '../../core/Interfaces/DropDownData.interface';
 @Component({
   selector: 'app-part-information',
   standalone: true,
@@ -35,30 +36,11 @@ export class PartInformationComponent implements OnInit,AfterViewInit {
   editIndex: number | null = null;
   partForm!: FormGroup;
   infoMessage: string = '';
-  suppliers = [
-    { id: 'Supplier1', name: 'Supplier 1' },
-    { id: 'Supplier2', name: 'Supplier 2' },
-    { id: 'Supplier3', name: 'Supplier 3' },
-    { id: 'Supplier4', name: 'Supplier 4' },
-  ];
   isPartFormChanged: boolean = false;
-  manufacturingCategories = [
-    { id: 'option1', name: 'option1' },
-    { id: 'option2', name: 'option2' },
-    { id: 'option3', name: 'option3' },
-    { id: 'option4', name: 'option4' },
-  ];
-  packingTypes = [
-    { id: 'option1', name: 'option1' },
-    { id: 'option2', name: 'option2' },
-    { id: 'option3', name: 'option3' },
-    { id: 'option4', name: 'option4' },
-  ];
-  deliverySites = [
-    { id: 'site1', name: 'Site 1' },
-    { id: 'site2', name: 'Site 2' },
-    { id: 'site3', name: 'Site 3' },
-  ];
+  suppliers: Supplier[] = [];
+  manufacturingCategories: ManufacturingCategory[] = [];
+  packingTypes: PackingType[] = [];
+  deliverySites: DeliverySite[] = [];
   @Input() isExpanded: boolean = false;
 
   constructor(
@@ -84,9 +66,15 @@ export class PartInformationComponent implements OnInit,AfterViewInit {
   }
   ngOnInit() {
     this.http.get<AccordionItem[]>('/assets/accordion-data.json').subscribe(data => {
-      this.items = data;  
-      console.log(this.items);
-          
+      this.items = data;       
+    });
+    this.http.get<Data>('/assets/dropdown-data.json').subscribe((data) => {
+       this.suppliers = data.suppliers;
+      this.manufacturingCategories = data.manufacturingCategories;
+      this.packingTypes = data.packingTypes;
+      this.deliverySites = data.deliverySites;
+      console.log(this.suppliers);
+      
     });
     this.partForm = this.fb.group({
       internalPartNumber: [{ value: '', disabled: true }, Validators.required],

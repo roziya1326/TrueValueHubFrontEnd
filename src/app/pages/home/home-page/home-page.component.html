@@ -17,7 +17,7 @@
       <textarea id="description" formControlName="description" placeholder="Enter the project description" rows="4" style="width: 100%;"></textarea>
     </div>
 
-    <div>
+    <div >
       <label>Attach Files</label>
       <div *ngIf="draggedOver" class="drop-message">
         Drop your file here!
@@ -29,7 +29,8 @@
         Drag & drop your file or folder here
         <a href="#" class="upload-link" (click)="fileInput.click(); $event.preventDefault();">Add File/Folder</a>
       </div>
-
+      <div class="drop-border" [class.visible]="draggedOver"></div>
+      
       <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
       <div *ngIf="selectedFileName" class="file-selected">
         File Selected: {{ selectedFileName }}

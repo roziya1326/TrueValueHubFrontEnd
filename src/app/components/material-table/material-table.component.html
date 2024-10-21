@@ -37,7 +37,7 @@
       <!-- Toggle Edit Form -->
       <tr *ngIf="selectedMaterial">
         <td colspan="4"> 
-              <app-material-form [selectedMaterial] = "selectedMaterial" (materialFormChanged)="onFormChanged($event)" ></app-material-form>                                   
+              <app-material-form [selectedMaterial] = "selectedMaterial" [materialSum]="materialSum" (materialFormChanged)="onFormChanged($event)" ></app-material-form>                                   
         </td>
       </tr>
     </tbody>

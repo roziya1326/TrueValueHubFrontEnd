@@ -21,7 +21,7 @@
                             <div class="col-md-4" style="margin-right: 5px;">
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="text" id="materialCost" class="form-control" value="36.1669" readonly style="width: -100px;">
+                                    <input type="text" id="materialCost" class="form-control"  [value]="totalMaterialCost$ | async" readonly style="width: -100px;">
                                 </div>
                             </div>
                             <div class="col-md-4"style="margin-right: -125px;" >

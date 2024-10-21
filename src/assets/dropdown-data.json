@@ -1,0 +1,26 @@
+{
+    "suppliers": [
+      { "id": "Supplier1", "name": "Supplier 1" },
+      { "id": "Supplier2", "name": "Supplier 2" },
+      { "id": "Supplier3", "name": "Supplier 3" },
+      { "id": "Supplier4", "name": "Supplier 4" }
+    ],
+    "manufacturingCategories": [
+      { "id": "option1", "name": "option1" },
+      { "id": "option2", "name": "option2" },
+      { "id": "option3", "name": "option3" },
+      { "id": "option4", "name": "option4" }
+    ],
+    "packingTypes": [
+      { "id": "option1", "name": "option1" },
+      { "id": "option2", "name": "option2" },
+      { "id": "option3", "name": "option3" },
+      { "id": "option4", "name": "option4" }
+    ],
+    "deliverySites": [
+      { "id": "site1", "name": "Site 1" },
+      { "id": "site2", "name": "Site 2" },
+      { "id": "site3", "name": "Site 3" }
+    ]
+  }
+  

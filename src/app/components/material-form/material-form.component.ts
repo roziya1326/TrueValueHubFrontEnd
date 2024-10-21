@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialService } from '../../Services/material.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { updateTotalMaterialCost } from '../../store/actions/cost-summary.action';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-material-form',
@@ -15,11 +16,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MaterialFormComponent {
   @Input() selectedMaterial :Material | null = null;
+  @Input() materialSum : number = 0;
   @Output() materialFormChanged = new EventEmitter<boolean>();
   materialForm!: FormGroup;
   isMaterialFormChanged: boolean = false;
 
-  constructor(private fb: FormBuilder,private materialService :MaterialService, private toastr :ToastrService) {}
+  constructor(private fb: FormBuilder,private materialService :MaterialService, private toastr :ToastrService,private store:Store) {}
 
   ngOnInit(): void {
     this.materialForm = this.fb.group({
@@ -44,6 +46,13 @@ export class MaterialFormComponent {
     this.materialForm.valueChanges.subscribe(() => { 
       this.isMaterialFormChanged = true;
       this.materialFormChanged.emit(true); 
+    });console.log(this.materialSum);
+    this.materialForm.get('totalMaterialCost')?.valueChanges.subscribe((value) => {
+      
+      
+      if(this.selectedMaterial && this.selectedMaterial.totalMaterialCost)
+      var newCost = this.materialSum - this.selectedMaterial?.totalMaterialCost + value;
+      this.store.dispatch(updateTotalMaterialCost({ totalMaterialCost: newCost }));
     });
   }
   updateAndSave() {    

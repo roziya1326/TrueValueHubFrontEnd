@@ -7,6 +7,8 @@ import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component'
 import { AccordionItem } from '../../core/Interfaces/AccordionItem.interface';
 import { MaterialFormComponent } from "../material-form/material-form.component";
 import { MaterialTableComponent } from "../material-table/material-table.component";
+import { Store } from '@ngrx/store';
+import { updateTotalMaterialCost } from '../../store/actions/cost-summary.action';
 @Component({
   selector: 'app-material-information',
   standalone: true,
@@ -27,13 +29,14 @@ export class MaterialInformationComponent {
   isChanged = false;
   editingMaterialId: number | null = null;
   editIndex: number | null = null;
+  _materialSum: number = 0;
   @Input() isExpanded: boolean = false;
 
   isMaterialFormChanged: boolean = false;
   @ViewChild(MaterialTableComponent) materialTableComponent!:MaterialTableComponent;
   isInitialized: any;
 
-  constructor() {}
+  constructor(private store:Store) {}
 
   onModelChange(index: number) {
     this.isChanged = true;
@@ -66,10 +69,28 @@ export class MaterialInformationComponent {
       this.items.forEach(item => item.isExpanded = this.isExpanded);
     }
   }
+  set materialSum(value: number) {
+    this._materialSum = value;
+    this.store.dispatch(updateTotalMaterialCost({ totalMaterialCost: this._materialSum }));
+  }
 
+  get materialSum(): number {
+    return this._materialSum;
+  }
   updateMaterialInformation(part: Part) {
     if (part.materials && part.materials.$values) {
       this.materials = part.materials.$values as Material[];
+      if (this.materials) {
+        console.log('Material List Loaded:', this.materials);
+        
+        this.materialSum = this.materials.reduce((sum, material) => {
+          return sum + (material.totalMaterialCost || 0)+0;
+        }, 0);
+        
+        console.log('Total Material Cost:', this.materialSum);
+      } else {
+        console.log('Material List is empty or null');
+      }
     } else {
       this.materials = [];
     }   

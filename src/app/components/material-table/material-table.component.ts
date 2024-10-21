@@ -18,6 +18,7 @@ import { Part } from '../../core/Interfaces/Part.interface';
 export class MaterialTableComponent implements OnInit {
   @Input() materialList :Material[] |null = null;
   @Input() selectedPart :any |null = null;
+  @Input() materialSum : number = 0;
   @Output() materialFormChanged = new EventEmitter<boolean>();
 
   selectedMaterial: Material | null = null;
@@ -29,9 +30,9 @@ export class MaterialTableComponent implements OnInit {
   buttonColor: string = 'blue';
   isInitialized: number = 0;
   selectedRowIndex: number | null = 0;
-
   ngOnInit(){
-    this.toggleEditForm(0);
+    this.toggleEditForm(0); 
+     
   }
   constructor(
     private materialService: MaterialService,
@@ -44,7 +45,6 @@ export class MaterialTableComponent implements OnInit {
     console.log(this.selectedRowIndex);
     
     if (this.editingIndex === index) {
-      // Close the edit form
       this.editingIndex = null;
       this.selectedMaterial = null;
       this.selectedRowIndex = null;
@@ -53,7 +53,7 @@ export class MaterialTableComponent implements OnInit {
       this.editingIndex = index;
       this.selectedRowIndex = index;
       if(this.materialList){
-        this.selectedMaterial = { ...this.materialList[index] };
+        this.selectedMaterial = { ...this.materialList[index] };       
       }
     }
   }
@@ -69,13 +69,13 @@ export class MaterialTableComponent implements OnInit {
   if(this.selectedPart){ 
     const newMaterial: Material = {
       materialId: 0,
-      materialDescription: 'string',
+      materialDescription: 'testmatdesc',
       cost: 0,
-      processGroup: 'string',
-      subProcess: 'string',
-      materialCategory: 'string',
-      family: 'string',
-      grade: 'string',
+      processGroup: 'testprocess',
+      subProcess: 'testsubprocess',
+      materialCategory: 'testcate',
+      family: 'testfamily',
+      grade: 'testgrade',
       volume: 0,
       price: 0,
       density: 0,

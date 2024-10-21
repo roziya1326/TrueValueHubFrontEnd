@@ -90,12 +90,11 @@ mat-tab-group {
     top: 200px; 
     left: 100px;
   }
-  
-  .file-drop-zone {
-    border: 2px dashed #ccc;
-    padding: 20px;
-    text-align: center;
+  .file-drop-zone.highlight {
+    border-color: #0066cc;
+    background-color: #f0f8ff;
   }
+  
   
   .upload-link {
     color: rgb(0, 123, 255);
@@ -126,5 +125,19 @@ mat-tab-group {
     border-radius: 5px; 
     z-index: 1000;
     pointer-events: none; 
+  }
+  .drop-border {
+    position: fixed; 
+    top: 300px;
+    left: 10px;
+    right: 50px;
+    bottom: 10px;
+    border: 2px dashed rgba(0, 123, 255, 0.8); 
+    pointer-events: none; 
+    display: none;
+  }
+  
+  .drop-border.visible {
+    display: block; 
   }
   

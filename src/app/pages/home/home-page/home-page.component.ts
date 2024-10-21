@@ -159,6 +159,7 @@ export class HomePageComponent {
   onDragOver(event: DragEvent) {
     event.preventDefault();
     this.draggedOver = true;
+
   }
 
   onDragLeave(event: DragEvent) {
